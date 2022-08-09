@@ -36,6 +36,9 @@ export default function SignUp() {
 
 const Container = styled.div`
   display: flex;
+  @media (min-width: 0) and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Sidebar = styled.div`
@@ -48,6 +51,20 @@ const Sidebar = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-left: 10%;
+  padding-bottom: 1rem;
+
+  @media (min-width: 0) and (max-width: 768px) {
+    width: 100%;
+    padding: 0 !important;
+    align-items: center;
+    min-height: 24vh;
+
+    p {
+      text-align: center;
+      padding: 0 0 1rem 0 !important;
+      width: 90% !important;
+    }
+  }
 
   h1 {
     font-size: 3.5rem;
@@ -69,6 +86,18 @@ const Form = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 1rem;
+
+  @media (min-width: 0) and (max-width: 768px) {
+    width: 100%;
+    height: 76vh !important;
+    min-height: 0 !important;
+    justify-content: flex-start;
+
+    form {
+      padding-top: 1rem;
+    }
+  }
 
   form {
     min-height: 50vh;
