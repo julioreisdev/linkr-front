@@ -1,5 +1,12 @@
-export default function App () {
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignUp from "./SignUp/SignUp";
+
+export default function App() {
   return (
-    <>APP</>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
