@@ -94,7 +94,7 @@ const DropDownButton =styled.button`
     font-weight:bold;
     width:25px;
     height:25px;
-    transition-duration: 0.5s;
+    transition-duration: 0.8s;
     transition-property: transform;
     }
 `
