@@ -1,47 +1,13 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-export default function SignUp() {
-  return (
-    <Container>
-      <Sidebar>
-        <h1>Linkr</h1>
-        <p>save, share and discover the best links on the web</p>
-      </Sidebar>
-      <Form>
-        <form>
-          <input type="email" id="email" required placeholder="e-mail" />
-          <input
-            type="password"
-            id="password"
-            required
-            placeholder="password"
-          />
-          <input type="text" id="userName" required placeholder="username" />
-          <input
-            type="url"
-            id="pictureUrl"
-            required
-            placeholder="picture url"
-          />
-          <button>Sign Up</button>
-        </form>
-        <Link className="link" to="/">
-          Switch back to log in
-        </Link>
-      </Form>
-    </Container>
-  );
-}
-
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   @media (min-width: 0) and (max-width: 768px) {
     flex-direction: column;
   }
 `;
 
-const Sidebar = styled.div`
+export const Sidebar = styled.div`
   background-color: #151515;
   width: 60%;
   min-height: 100vh;
@@ -78,7 +44,7 @@ const Sidebar = styled.div`
   }
 `;
 
-const Form = styled.div`
+export const Form = styled.div`
   background-color: #333;
   width: 40%;
   min-height: 100vh;
@@ -87,7 +53,9 @@ const Form = styled.div`
   align-items: center;
   justify-content: center;
   padding-bottom: 1rem;
-
+  .pale {
+    filter: contrast(80%);
+  }
   @media (min-width: 0) and (max-width: 768px) {
     width: 100%;
     height: 76vh !important;
@@ -121,7 +89,7 @@ const Form = styled.div`
     input {
       color: gray;
       ::placeholder {
-        color: gray;
+        color: #9F9F9F;
         font-weight: bold;
       }
     }
