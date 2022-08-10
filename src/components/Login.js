@@ -1,98 +1,93 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import UserContext from "../contexts/UserContext";
-
 import { Container, Sidebar, Form } from "./StyleAuth";
 import { Loaderspinner } from "./Loaderspinner";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const { setUserdata } = useContext(UserContext);
-    const navigate =  useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { setUserdata } = useContext(UserContext);
+  const navigate = useNavigate();
 
-    const userlogin = localStorage.getItem('data');
-    if(userlogin) {
-        setUserdata(JSON.parse(userlogin));
+  const userlogin = localStorage.getItem("data");
+  if (userlogin) {
+    setUserdata(JSON.parse(userlogin));
+    navigate("/timeline");
+  }
+
+  function login(e) {
+    e.preventDefault();
+    setLoading(true);
+  }
+
+  if (loading) {
+    const body = { email, password };
+    const promise = axios.post(`http://localhost:5000/signin`, body);
+
+    promise
+      .then((re) => {
+        setLoading(false);
+        setUserdata(re.data);
+
+        const data = { ...re.data };
+        const dataString = JSON.stringify(data);
+
+        localStorage.setItem("data", dataString);
+
         navigate("/timeline");
-    }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          alert("Usuário inválido");
+        } else {
+          alert("Não foi possível efetuar o login");
+        }
 
-    function login(e) {
-        e.preventDefault();
-        setLoading(true);
-    }
+        setLoading(false);
+      });
+  }
 
-    if(loading) {
-        const body = { email, password };
-        const promise = axios.post(
-            `http://localhost:5000/signin`,
-            body
-        );
-
-        promise.then((re) => {
-            setLoading(false);
-            setUserdata(re.data);
-
-            const data = { ...re.data };
-            const dataString = JSON.stringify(data);
-
-            localStorage.setItem('data', dataString);
-
-            navigate("/timeline");
-        }).catch((error) => {
-            if(error.response.status === 401) {
-                alert("Usuário inválido");
-            } else {
-                alert("Não foi possível efetuar o login");
-            }
-
-            setLoading(false);
-        });
-    }
-
-    return(
-        <Container>
-            <Sidebar>
-                <h1>linkr</h1>
-                <p>save, share and discover the best links on the web</p>
-            </Sidebar>
-            <Form>
-                <form onSubmit={ loading ? null : login }>
-                    <input
-                        className={ loading ? "pale" : "" }
-                        type="email"
-                        id={ loading ? null : "email" }
-                        placeholder="e-mail"
-                        value={email}
-                        onChange={ loading ? null : (e) => setEmail(e.target.value) }
-                        required
-                    />
-                    <input
-                        className={ loading ? "pale" : "" }
-                        type="password"
-                        id={ loading ? null : "password" }
-                        placeholder="Senha"
-                        value={password}
-                        onChange={ loading ? null : (e) => setPassword(e.target.value) }
-                        required
-                    />
-                    {loading ?
-                        <div className="pale">
-                            <Loaderspinner />
-                        </div>
-                    :
-                        <button type="submit" >
-                            Log In
-                        </button>
-                    }
-                </form>
-                <Link to={'/sign-up'}>
-                    <p>first time? Create an account!</p>
-                </Link>
-            </Form>
-        </Container>
-    );
+  return (
+    <Container>
+      <Sidebar>
+        <h1>linkr</h1>
+        <p>save, share and discover the best links on the web</p>
+      </Sidebar>
+      <Form>
+        <form onSubmit={loading ? null : login}>
+          <input
+            className={loading ? "pale" : ""}
+            type="email"
+            id={loading ? null : "email"}
+            placeholder="e-mail"
+            value={email}
+            onChange={loading ? null : (e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className={loading ? "pale" : ""}
+            type="password"
+            id={loading ? null : "password"}
+            placeholder="Senha"
+            value={password}
+            onChange={loading ? null : (e) => setPassword(e.target.value)}
+            required
+          />
+          {loading ? (
+            <div className="pale">
+              <Loaderspinner />
+            </div>
+          ) : (
+            <button type="submit">Log In</button>
+          )}
+        </form>
+        <Link className="link" to={"/sign-up"}>
+          <p>first time? Create an account!</p>
+        </Link>
+      </Form>
+    </Container>
+  );
 }

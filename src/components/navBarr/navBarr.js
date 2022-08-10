@@ -37,7 +37,7 @@ export default function NavBarr({closeDropDown}){
                     </DropDownButton>
                     <ul>
                         <DropDownItens>
-                            <LogoutButton onClick={()=>logout(navigate)} >Logout</LogoutButton>
+                            <LogoutButton onClick={()=>logout(navigate)}><p>Logout</p></LogoutButton>
                         </DropDownItens>
                     </ul>
 
@@ -53,8 +53,10 @@ export default function NavBarr({closeDropDown}){
 }
 
 const LogoutButton = styled.button`
+    width: 100%;
+    height:100%;
     border: none;
-    background-color: none;
+    background-color: #151515;
 ` 
 
 const UserSection = styled.section`
