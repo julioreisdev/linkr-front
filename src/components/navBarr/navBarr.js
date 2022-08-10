@@ -56,7 +56,13 @@ const LogoutButton = styled.button`
     width: 100%;
     height:100%;
     border: none;
+    cursor: pointer;
     background-color: #151515;
+p{
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
 ` 
 
 const UserSection = styled.section`
@@ -88,6 +94,8 @@ const DropDownButton =styled.button`
     font-weight:bold;
     width:25px;
     height:25px;
+    transition-duration: 0.5s;
+    transition-property: transform;
     }
 `
 
@@ -109,6 +117,16 @@ ul{
 
 &&.able ul{
     display:block
+}
+
+&&.able .dropArrow{
+    transform: rotate(180deg);
+    
+}
+
+&&.disable .dropArrow{
+    transform: rotate(-360deg);
+    
 }
 `
 
