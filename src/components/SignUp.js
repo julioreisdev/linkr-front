@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
-import { Container, Sidebar, Form } from "./StyleAuth";
+import { useNavigate } from "react-router-dom";
+import GlobalStyle from "../cssReset/globalStyled";
+import { Container, Sidebar, Form, LinkStyled } from "./StyleAuth";
 import { useState } from "react";
 import axios from "axios";
 import { Loaderspinner } from "./Loaderspinner";
@@ -43,51 +44,54 @@ export default function SignUp() {
   }
 
   return (
-    <Container>
-      <Sidebar>
-        <h1>linkr</h1>
-        <p>save, share and discover the best links on the web</p>
-      </Sidebar>
-      <Form>
-        <form onSubmit={(e) => submit(e)}>
-          <input
-            type="email"
-            id="email"
-            required
-            placeholder="e-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            id="password"
-            required
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="text"
-            id="userName"
-            required
-            placeholder="username"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <input
-            type="url"
-            id="pictureUrl"
-            required
-            placeholder="picture url"
-            value={pictureUrl}
-            onChange={(e) => setPictureUrl(e.target.value)}
-          />
-          {promiseLoading ? <Loaderspinner /> : <button>Sign Up</button>}
-        </form>
-        <Link className="link" to="/">
-          Switch back to log in
-        </Link>
-      </Form>
-    </Container>
+    <>
+      <GlobalStyle/>
+      <Container>
+        <Sidebar>
+          <h1>linkr</h1>
+          <p>save, share and discover the best links on the web</p>
+        </Sidebar>
+        <Form>
+          <form onSubmit={(e) => submit(e)}>
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              id="password"
+              required
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              type="text"
+              id="userName"
+              required
+              placeholder="username"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+            <input
+              type="url"
+              id="pictureUrl"
+              required
+              placeholder="picture url"
+              value={pictureUrl}
+              onChange={(e) => setPictureUrl(e.target.value)}
+            />
+            {promiseLoading ? <Loaderspinner /> : <button>Sign Up</button>}
+          </form>
+          <LinkStyled to="/">
+            Switch back to log in
+          </LinkStyled>
+        </Form>
+      </Container>
+    </>
   );
 }

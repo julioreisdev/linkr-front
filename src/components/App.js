@@ -10,9 +10,6 @@ import UserContext from "../contexts/UserContext";
 import SignUp from "./SignUp";
 import Login from "./Login";
 
-import "../assets/css/reset.css";
-import "../assets/css/style.css";
-
 export default function App() {
   const [userdata, setUserdata] = useState("");
   const[Status,Setstatus]=useState({dropDown:"disable"})

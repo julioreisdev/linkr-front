@@ -4,7 +4,7 @@ import styled from "styled-components";
 import elementStatusContext from "../../context/ElementsStatus.js";
 import GlobalStyle from "../../cssReset/globalStyled.js";
 import NavBarr from "../navBarr/navBarr.js";
-
+import Hastags from "../Hastags.js";
 function closeDropDown(Status,Setstatus,e){
     e.preventDefault()
     e.stopPropagation()
@@ -22,7 +22,9 @@ export default function TimelinePage(){
             <GlobalStyle/>
             <TotalContainer >
                 <NavBarr  closeDropDown={closeDropDown}/>
-                <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >Hello, World</div>
+                <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >
+                    <Hastags/>
+                </div>
             </TotalContainer>
         </>
     )
