@@ -1,4 +1,3 @@
-
 import TimelinePage from "./timelineRoute/timelinePage.js";
 
 import elementStatusContext from "../context/ElementsStatus.js";
@@ -13,20 +12,33 @@ import Login from "./Login";
 import "../assets/css/reset.css";
 import "../assets/css/style.css";
 
+import avatar from "../assets/images/linkr_Logo.png";
+
 export default function App() {
   const [userdata, setUserdata] = useState("");
-  const[Status,Setstatus]=useState({dropDown:"disable"})
+  const [userName, setUserName] = useState("...");
+  const [userImg, setUserImg] = useState(avatar);
+  const [Status, Setstatus] = useState({ dropDown: "disable" });
   return (
-    <UserContext.Provider value={{userdata, setUserdata}}>
-      <elementStatusContext.Provider value={{Status,Setstatus}}>
+    <UserContext.Provider
+      value={{
+        userdata,
+        setUserdata,
+        userName,
+        setUserName,
+        userImg,
+        setUserImg,
+      }}
+    >
+      <elementStatusContext.Provider value={{ Status, Setstatus }}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Login />}/>
-            <Route path='/sign-up' element={<SignUp />} />
-            <Route path="/timeline" element = {<TimelinePage/>} />
+            <Route path="/" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/timeline" element={<TimelinePage />} />
           </Routes>
         </BrowserRouter>
-      </elementStatusContext.Provider>  
+      </elementStatusContext.Provider>
     </UserContext.Provider>
   );
 }
