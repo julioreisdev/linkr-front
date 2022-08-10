@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import elementStatusContext from "../../context/ElementsStatus.js";
-import GlobalStyle from "../../cssReset/globalStyled.js";
+import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
 import NavBarr from "../navBarr/navBarr.js";
 import Hastags from "../Hastags.js";
 function closeDropDown(Status,Setstatus,e){

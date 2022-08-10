@@ -4,7 +4,7 @@ import axios from "axios";
 import UserContext from "../contexts/UserContext";
 import { Container, Sidebar, Form, LinkStyled } from "./StyleAuth";
 import { Loaderspinner } from "./Loaderspinner";
-import GlobalStyle from "../cssReset/globalStyled";
+import GlobalStyle from "../assets/css/cssReset/globalStyled";
 
 export default function Login() {
   const [email, setEmail] = useState("");
