@@ -1,16 +1,32 @@
-import { BrowserRouter,Routes, Route } from "react-router-dom";
+
 import TimelinePage from "./timelineRoute/timelinePage.js";
-import { useContext,useState } from "react";
+
 import elementStatusContext from "../context/ElementsStatus.js";
-export default function App () {
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import UserContext from "../contexts/UserContext";
+
+import SignUp from "./SignUp";
+import Login from "./Login";
+
+import "../assets/css/reset.css";
+import "../assets/css/style.css";
+
+export default function App() {
+  const [userdata, setUserdata] = useState("");
   const[Status,Setstatus]=useState({dropDown:"disable"})
   return (
-  <elementStatusContext.Provider value={{Status,Setstatus}}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/timeline" element = {<TimelinePage/>} />
-      </Routes>
-    </BrowserRouter>
-  </elementStatusContext.Provider>
+    <UserContext.Provider value={{userdata, setUserdata}}>
+      <elementStatusContext.Provider value={{Status,Setstatus}}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Login />}/>
+            <Route path='/sign-up' element={<SignUp />} />
+            <Route path="/timeline" element = {<TimelinePage/>} />
+          </Routes>
+        </BrowserRouter>
+      </elementStatusContext.Provider>  
+    </UserContext.Provider>
   );
 }

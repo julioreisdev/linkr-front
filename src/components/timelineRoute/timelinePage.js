@@ -6,11 +6,11 @@ import GlobalStyle from "../../cssReset/globalStyled.js";
 import NavBarr from "../navBarr/navBarr.js";
 
 function closeDropDown(Status,Setstatus,e){
+    e.preventDefault()
     e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
     console.log(e);
+
     if(Status.dropDown ==="able"){
-            
         Setstatus({...Status,dropDown:"disable"})
     }
 }
@@ -22,9 +22,7 @@ export default function TimelinePage(){
             <GlobalStyle/>
             <TotalContainer >
                 <NavBarr  closeDropDown={closeDropDown}/>
-                <div onClick={(event)=>{
-                    event.stopPropagation();
-                    closeDropDown(Status,Setstatus,event)}} >Hello, World</div>
+                <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >Hello, World</div>
             </TotalContainer>
         </>
     )

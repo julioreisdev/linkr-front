@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import elementStatusContext from "../../context/ElementsStatus.js"
 import styled from "styled-components"
-import { Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 import logo from "../../assets/images/linkr_Logo.png"
 
@@ -14,27 +14,30 @@ function toggleDropDown(Status,Setstatus){
     Setstatus({...Status,dropDown:"able"})
 }
 
+function logout(navigate){
+    localStorage.removeItem('data');
+    navigate("/");
+}
+
 export default function NavBarr({closeDropDown}){
     const {Status,Setstatus} = useContext(elementStatusContext)
-   
+    const navigate = useNavigate()
 
     return(
         <NavBarrStyled 
-            onClick={(e)=>{
-                e.stopPropagation();
-            closeDropDown(Status,Setstatus,e)}}>
+            onClick={(e)=>{closeDropDown(Status,Setstatus,e)}}>
 
             <img src={logo} alt="Logo Linkr"/>
             <h3>imput</h3>
 
             <Menu>
                 <DropDown className={Status.dropDown} >
-                    <DropDownButton onClick={(e)=>{toggleDropDown(Status,Setstatus)}}>
+                    <DropDownButton onClick={()=>{toggleDropDown(Status,Setstatus)}}>
                         <IoIosArrowDown className="dropArrow"/>
                     </DropDownButton>
                     <ul>
                         <DropDownItens>
-                            <button>Logout</button>
+                            <LogoutButton onClick={()=>logout(navigate)} >Logout</LogoutButton>
                         </DropDownItens>
                     </ul>
 
@@ -48,6 +51,11 @@ export default function NavBarr({closeDropDown}){
         </NavBarrStyled>
     )
 }
+
+const LogoutButton = styled.button`
+    border: none;
+    background-color: none;
+` 
 
 const UserSection = styled.section`
 
