@@ -1,13 +1,14 @@
-import TimelinePage from "./timelineRoute/timelinePage.js";
 
 import elementStatusContext from "../context/ElementsStatus.js";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import UserContext from "../contexts/UserContext";
 
-import SignUp from "./SignUp";
-import Login from "./Login";
+
+import SignUp from "./authRoute/SignUp";
+import Login from "./authRoute/Login";
+import TimelinePage from "./timelineRoute/timelinePage.js";
+import HashtagPage from "./hashtagPage/HashtagPage.js";
 import avatar from "../assets/images/linkr_Logo.png";
 export default function App() {
   const [userdata, setUserdata] = useState("");
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="/" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/timeline" element={<TimelinePage />} />
+            <Route path="/hashtag/:hashtag" element={<HashtagPage/>}/>  
           </Routes>
         </BrowserRouter>
       </elementStatusContext.Provider>
