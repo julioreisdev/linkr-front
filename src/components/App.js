@@ -14,6 +14,7 @@ export default function App() {
   const [userdata, setUserdata] = useState("");
   const [userName, setUserName] = useState("...");
   const [userImg, setUserImg] = useState(avatar);
+  const [postLoader, setPostLoader] = useState(false);
   const [Status, Setstatus] = useState({ dropDown: "disable" });
   return (
     <UserContext.Provider
@@ -24,6 +25,8 @@ export default function App() {
         setUserName,
         userImg,
         setUserImg,
+        postLoader,
+        setPostLoader,
       }}
     >
       <elementStatusContext.Provider value={{ Status, Setstatus }}>

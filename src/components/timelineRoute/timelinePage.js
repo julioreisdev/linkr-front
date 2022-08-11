@@ -9,7 +9,8 @@ import Post from "../Post/Post.js";
 import PostPreview from "../Post/PostPreview.js";
 import Hastags from "./Hastags.js";
 import TimelineTitle from "./timelineTitle.js";
-import {ContentMain,TotalContainer} from "../../assets/css/style/timelineStyle.js"
+import {ContentMain,TotalContainer} from "../../assets/css/style/timelineStyle.js";
+import { Loaderspinner } from "../Loaderspinner.js";
 import axios from "axios";
 
 function closeDropDown(Status, Setstatus, e) {
@@ -22,19 +23,20 @@ function closeDropDown(Status, Setstatus, e) {
 
 export default function TimelinePage(){
     const [postList, setPostList] = useState([]);
-    const [postLoading, setPostLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const {Status,Setstatus} = useContext(elementStatusContext)
-    const { userdata } = useContext(UserContext);
+    const { userdata, postLoader, setPostLoader } = useContext(UserContext);
     const navigate = useNavigate();
-    console.log(postList);
+
     useEffect(() => {
+      setLoading(true);
       if(userdata !== "") {
         const config = {
           headers: {
               Authorization: `Bearer ${userdata}`
           }
         };
-        console.log(userdata);
+        
         const promise = axios.get(
             `${process.env.REACT_APP_URL_API}/posts/0`,
             config
@@ -42,14 +44,15 @@ export default function TimelinePage(){
 
         promise.then((re) => {
           setPostList(re.data);
-          console.log(re);
+          setPostLoader(false);
+          setLoading(false);
         });
       } else {
-        alert("Error, could not login");
+        alert("An error occured while trying to fetch the posts, please refresh the page");
         localStorage.removeItem('data');
         navigate("/");
       }
-    }, [userdata]);
+    }, [userdata, postLoader]);
 
     return(
         <>
@@ -63,18 +66,22 @@ export default function TimelinePage(){
                   <ContentMain>
                     <PostContainer>
                       <Post />
-                      {postList.map((post, index) => (
-                        <PostPreview
-                          key={index}
-                          userName={post.userName}
-                          userImage={post.userImage}
-                          postContent={post.postContent}
-                          url={post.url}
-                          urlTitle={post.urlTitle}
-                          urlDescription={post.urlDescription}
-                          urlImage={post.urlImage}
-                        />
-                      ))}
+                      {loading ?
+                        <Loaderspinner />
+                        :
+                        postList.map((post, index) => (
+                          <PostPreview
+                            key={index}
+                            userName={post.userName}
+                            userImage={post.userImage}
+                            postContent={post.postContent}
+                            url={post.url}
+                            urlTitle={post.urlTitle}
+                            urlDescription={post.urlDescription}
+                            urlImage={post.urlImage}
+                          />
+                        ))
+                      }
                     </PostContainer>
                     <Hastags/>
                   </ContentMain>
