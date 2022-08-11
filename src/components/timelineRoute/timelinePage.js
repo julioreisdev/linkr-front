@@ -7,10 +7,8 @@ import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
 import NavBarr from "../navBarr/navBarr.js";
 import Post from "../Post/Post.js";
 import PostPreview from "../Post/PostPreview.js";
-import Hastags from "../Hastags.js";
+import Hastags from "./Hastags.js";
 import TimelineTitle from "./timelineTitle.js";
-import elementStatusContext from "../../context/ElementsStatus.js";
-import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
 import {ContentMain,TotalContainer} from "../../assets/css/style/timelineStyle.js"
 import axios from "axios";
 
@@ -93,4 +91,7 @@ const PostContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media(max-width: 620px) {
+    width: 100%;
+  }
 `

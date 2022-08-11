@@ -70,6 +70,11 @@ const LikeContainer = styled.div`
         border-radius: 26.5px;
         margin-bottom: 17px;
     }
+    @media(max-width: 620px) {
+        max-width: 50px;
+        padding-left: 10px;
+        margin-right: -5px;
+    }
 `
 
 const LinkContainer = styled.div`
@@ -157,15 +162,38 @@ const LinkContainer = styled.div`
 
     @media(max-width: 620px) {
         width: 100%;
+        min-height: 155px;
+        margin-left: -20px;
         .linkpreview {
+            max-width: 288px;
             padding-right: 5px;
             box-sizing: border-box;
         }
+        h2, p {
+            width: 288px;
+            text-align: left;
+        }
         .linkdescription > h3{
-            width: 100%; 
+            width: 138px;
+            height: 26px;
+            font-size: 11px;
+            padding-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .linkdescription > p{
-            width: 100%;
+            width: 175px;
+            height: 44px;
+            font-size: 9px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+
+        .linkpreview > img{
+            width: 100px;
+        }
+        
     }
 `
