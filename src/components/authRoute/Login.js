@@ -10,8 +10,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUserdata } = useContext(UserContext);
+  const { userdata, setUserdata } = useContext(UserContext);
   const navigate = useNavigate();
+
 
   const userlogin = localStorage.getItem("data");
   if (userlogin) {
@@ -26,20 +27,18 @@ export default function Login() {
 
   if (loading) {
     const body = { email, password };
-    const promise = axios.post(`http://localhost:5000/signin`, body);
+    const promise = axios.post(`${process.env.REACT_APP_URL_API}/signin`, body);
 
     promise
       .then((re) => {
-        setLoading(false);
-        setUserdata(re.data);
-
-        const data = { ...re.data };
+        const data = re.data;
         const dataString = JSON.stringify(data);
 
         localStorage.setItem("@tokenJWT", JSON.stringify(re.data));
         localStorage.setItem("data", dataString);
-
+        console.log(re.data);
         navigate("/timeline");
+        setUserdata(re.data);
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -47,9 +46,9 @@ export default function Login() {
         } else {
           alert("Não foi possível efetuar o login");
         }
-
-        setLoading(false);
       });
+
+      setLoading(false);
   }
 
   return (
@@ -61,7 +60,7 @@ export default function Login() {
           <p>save, share and discover the best links on the web</p>
         </Sidebar>
         <Form>
-          <form onSubmit={loading ? null : login}>
+          <form onSubmit={login}>
             <input
               className={loading ? "pale" : ""}
               type="email"
