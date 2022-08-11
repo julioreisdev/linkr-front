@@ -52,7 +52,7 @@ table {
 }
 *{
     box-sizing:border-box;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif !important;
 }
 ` 
 
