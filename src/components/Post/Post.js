@@ -38,7 +38,6 @@ export default function Post() {
 
   return (
     <Container>
-      <h2>timeline</h2>
       <PostContainer>
         <div>
           <img
@@ -76,13 +75,15 @@ export default function Post() {
 }
 
 const Container = styled.div`
-  width: 40%;
-  padding: 1rem;
-  margin-top: 3rem;
+  width: 100%;
+  max-width:65%;
+  padding: 0rem;
+  
   color: #fff;
   color: #fff;
   text-align: left;
   position: relative;
+
 
   h2 {
     font-size: 2.5rem;
@@ -90,8 +91,8 @@ const Container = styled.div`
     margin-bottom: 2rem;
     font-family: "Oswald", sans-serif !important;
   }
-  @media (min-width: 0) and (max-width: 820px) {
-    width: 100%;
+  @media (min-width: 0) and (max-width: 700px) {
+    max-width:100%;
     padding: 1rem 0 0 0;
 
     h2 {
@@ -114,8 +115,8 @@ const PostContainer = styled.div`
     font-size: 1.1rem;
 
     img {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       margin-right: 0.5rem;
     }
@@ -154,7 +155,7 @@ const PostContainer = styled.div`
     }
   }
 
-  @media (min-width: 0) and (max-width: 820px) {
+  @media (min-width: 0) and (max-width: 700px) {
     border-radius: 0;
 
     div {

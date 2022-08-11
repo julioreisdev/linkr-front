@@ -1,11 +1,19 @@
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 export const Container = styled.div`
   display: flex;
   @media (min-width: 0) and (max-width: 768px) {
     flex-direction: column;
   }
 `;
+
+export const LinkStyled = styled(Link)`
+
+  text-decoration: none;
+  color: #fff;
+  font-family: 'Lato', sans-serif !important;
+
+`
 
 export const Sidebar = styled.div`
   background-color: #151515;
