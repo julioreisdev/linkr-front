@@ -9,6 +9,9 @@ import Post from "../Post/Post.js";
 import PostPreview from "../Post/PostPreview.js";
 import Hastags from "../Hastags.js";
 import TimelineTitle from "./timelineTitle.js";
+import elementStatusContext from "../../context/ElementsStatus.js";
+import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
+import {ContentMain,TotalContainer} from "../../assets/css/style/timelineStyle.js"
 import axios from "axios";
 
 function closeDropDown(Status, Setstatus, e) {
@@ -82,37 +85,6 @@ export default function TimelinePage(){
         </>
     )
 }
-const ContentMain= styled.main`
-  width:100%;
-  max-width:936px;
-  display: flex;
-  justify-content:space-between;
-  align-items:flex-start;
-
-`
-
-const TotalContainer = styled.section`
-    width: 100vw;
-    height: 100%;
-    padding: 72px 1rem 1rem 1rem;
-    background-color: #333333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-&&>div{
-    padding-top:90px;
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    align-items:center;
-}
- @media (min-width: 0) and (max-width: 700px) {
-    padding: 72px 0 0 0;
-  }
-`;
 
 const PostContainer = styled.div`
   width: auto;
@@ -122,32 +94,3 @@ const PostContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
-
-// =======
-// export default function TimelinePage() {
-//   const { Status, Setstatus } = useContext(elementStatusContext);
-//   return (
-//     <>
-//       <GlobalStyle />
-//       <TotalContainer>
-//         <NavBarr closeDropDown={closeDropDown} />
-//         <Post />
-//       </TotalContainer>
-//     </>
-//   );
-// }
-
-// const TotalContainer = styled.section`
-//   width: 100vw;
-//   height: 100vh;
-//   padding: 72px 1rem 1rem 1rem;
-//   background-color: #333333;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-
-//   @media (min-width: 0) and (max-width: 820px) {
-//     padding: 72px 0 0 0;
-//   }
-// `;
-

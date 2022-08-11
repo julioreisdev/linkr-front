@@ -1,7 +1,6 @@
 import React from "react";
-import  { ThreeDots } from "react-loader-spinner";
-
 import styled from "styled-components";
+import  { ThreeDots,TailSpin } from "react-loader-spinner";
 
 export const Loaderspinner = () => (
     <Div className="loader">
@@ -9,6 +8,12 @@ export const Loaderspinner = () => (
     </Div>
   );
 
+
+  export const LoaderspinnerTail = () => (
+    <Div className="loader">
+      <TailSpin color="#FFFFFF"/>
+    </Div>
+  );
 const Div = styled.div`
     width: auto;
     height: auto;

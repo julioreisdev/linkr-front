@@ -42,8 +42,9 @@ export const DropDownButton =styled.button`
     font-weight:bold;
     width:25px;
     height:25px;
-    transition-duration: 0.8s;
+    transition-duration: .8s;
     transition-property: transform;
+    transition-timing-function: ease-out;
     }
 `
 
@@ -94,6 +95,10 @@ img{
 }
 `
 
+export const LogoStyled = styled.img`
+    cursor: pointer;
+`
+
 export const NavBarrStyled = styled.nav`
 width: 100%;
 height:72px;
@@ -105,7 +110,7 @@ padding:10px 17px;
 position:fixed;
 top:0;
 left:0;
-z-index: 1;
+z-index:1;
 h3{
     color: white;
 }

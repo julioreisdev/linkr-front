@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import { Container, Sidebar, Form, LinkStyled } from "./StyleAuth";
-import { Loaderspinner } from "./Loaderspinner";
-import GlobalStyle from "../assets/css/cssReset/globalStyled";
+import { Loaderspinner } from "../Loaderspinner";
+import GlobalStyle from "../../assets/css/cssReset/globalStyled";
 
 export default function Login() {
   const [email, setEmail] = useState("");

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import GlobalStyle from "../assets/css/cssReset/globalStyled";
+import GlobalStyle from "../../assets/css/cssReset/globalStyled";
 import { Container, Sidebar, Form, LinkStyled } from "./StyleAuth";
 import { useState } from "react";
 import axios from "axios";
-import { Loaderspinner } from "./Loaderspinner";
+import { Loaderspinner } from "./../Loaderspinner";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");

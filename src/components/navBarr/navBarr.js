@@ -1,10 +1,9 @@
-
 import { useContext } from "react";
-import elementStatusContext from "../../context/ElementsStatus.js";
-import {LogoutButton,UserSection,DropDownItens,DropDownButton,DropDown,Menu,NavBarrStyled} from "../../assets/css/style/navBarrStyle.js";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import logo from "../../assets/images/linkr_Logo.png";
+import elementStatusContext from "../../context/ElementsStatus.js";
+import {LogoutButton,UserSection,DropDownItens,DropDownButton,DropDown,Menu,NavBarrStyled,LogoStyled} from "../../assets/css/style/navBarrStyle.js";
 
 function toggleDropDown(Status, Setstatus) {
   if (Status.dropDown === "able") {
@@ -28,7 +27,7 @@ export default function NavBarr({ closeDropDown }) {
         closeDropDown(Status, Setstatus, e);
       }}
     >
-      <img src={logo} alt="Logo Linkr" />
+      <LogoStyled src={logo} alt="Logo Linkr" onClick={()=> navigate("/timeline")} />
       <h3>imput</h3>
 
       <Menu>
