@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 65%;
   padding: 0rem;
 
   color: #fff;

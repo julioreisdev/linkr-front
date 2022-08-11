@@ -3,7 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import logo from "../../assets/images/linkr_Logo.png";
 import elementStatusContext from "../../context/ElementsStatus.js";
-import {LogoutButton,UserSection,DropDownItens,DropDownButton,DropDown,Menu,NavBarrStyled,LogoStyled} from "../../assets/css/style/navBarrStyle.js";
+import {
+  LogoutButton,
+  UserSection,
+  DropDownItens,
+  DropDownButton,
+  DropDown,
+  Menu,
+  NavBarrStyled,
+  LogoStyled,
+} from "../../assets/css/style/navBarrStyle.js";
+import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 
 function toggleDropDown(Status, Setstatus) {
   if (Status.dropDown === "able") {
@@ -19,6 +30,7 @@ function logout(navigate) {
 
 export default function NavBarr({ closeDropDown }) {
   const { Status, Setstatus } = useContext(elementStatusContext);
+  const { searchPeople, setSearchPeople } = useContext(UserContext);
   const navigate = useNavigate();
 
   return (
@@ -27,8 +39,18 @@ export default function NavBarr({ closeDropDown }) {
         closeDropDown(Status, Setstatus, e);
       }}
     >
-      <LogoStyled src={logo} alt="Logo Linkr" onClick={()=> navigate("/timeline")} />
-      <h3>imput</h3>
+      <LogoStyled
+        src={logo}
+        alt="Logo Linkr"
+        onClick={() => navigate("/timeline")}
+      />
+
+      <Search
+        type="text"
+        placeholder="Search for people..."
+        value={searchPeople}
+        onChange={(e) => setSearchPeople(e.target.value)}
+      />
 
       <Menu>
         <DropDown className={Status.dropDown}>
@@ -58,3 +80,19 @@ export default function NavBarr({ closeDropDown }) {
     </NavBarrStyled>
   );
 }
+
+const Search = styled.input`
+  width: 50%;
+  padding: 0.5rem;
+  border: 1px solid #c6c6c6;
+  border-radius: 8px;
+  position: relative !important;
+
+  ::placeholder {
+    color: #c6c6c6;
+  }
+
+  @media (min-width: 0) and (max-width: 620px) {
+    display: none;
+  }
+`;
