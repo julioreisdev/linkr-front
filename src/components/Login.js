@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../contexts/UserContext";
-import { Container, Sidebar, Form } from "./StyleAuth";
+import { Container, Sidebar, Form, LinkStyled } from "./StyleAuth";
 import { Loaderspinner } from "./Loaderspinner";
+import GlobalStyle from "../assets/css/cssReset/globalStyled";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ export default function Login() {
         const data = { ...re.data };
         const dataString = JSON.stringify(data);
 
+        localStorage.setItem("@tokenJWT", JSON.stringify(re.data));
         localStorage.setItem("data", dataString);
 
         navigate("/timeline");
@@ -52,43 +54,46 @@ export default function Login() {
   }
 
   return (
-    <Container>
-      <Sidebar>
-        <h1>linkr</h1>
-        <p>save, share and discover the best links on the web</p>
-      </Sidebar>
-      <Form>
-        <form onSubmit={loading ? null : login}>
-          <input
-            className={loading ? "pale" : ""}
-            type="email"
-            id={loading ? null : "email"}
-            placeholder="e-mail"
-            value={email}
-            onChange={loading ? null : (e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            className={loading ? "pale" : ""}
-            type="password"
-            id={loading ? null : "password"}
-            placeholder="Senha"
-            value={password}
-            onChange={loading ? null : (e) => setPassword(e.target.value)}
-            required
-          />
-          {loading ? (
-            <div className="pale">
-              <Loaderspinner />
-            </div>
-          ) : (
-            <button type="submit">Log In</button>
-          )}
-        </form>
-        <Link className="link" to={"/sign-up"}>
-          <p>first time? Create an account!</p>
-        </Link>
-      </Form>
-    </Container>
+    <>
+      <GlobalStyle/>
+      <Container>
+        <Sidebar>
+          <h1>linkr</h1>
+          <p>save, share and discover the best links on the web</p>
+        </Sidebar>
+        <Form>
+          <form onSubmit={loading ? null : login}>
+            <input
+              className={loading ? "pale" : ""}
+              type="email"
+              id={loading ? null : "email"}
+              placeholder="e-mail"
+              value={email}
+              onChange={loading ? null : (e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              className={loading ? "pale" : ""}
+              type="password"
+              id={loading ? null : "password"}
+              placeholder="Senha"
+              value={password}
+              onChange={loading ? null : (e) => setPassword(e.target.value)}
+              required
+            />
+            {loading ? (
+              <div className="pale">
+                <Loaderspinner />
+              </div>
+            ) : (
+              <button type="submit">Log In</button>
+            )}
+          </form>
+          <LinkStyled to={"/sign-up"}>
+            <p>first time? Create an account!</p>
+          </LinkStyled>
+        </Form>
+      </Container>
+    </>
   );
 }

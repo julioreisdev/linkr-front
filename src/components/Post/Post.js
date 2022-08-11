@@ -1,13 +1,43 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 
 export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
+  const [promiseFinished, setPromiseFinished] = useState(false);
+
+  function submit(e) {
+    e.preventDefault();
+    const body = {
+      url: link,
+      content,
+    };
+
+    const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    setPromiseFinished(true);
+    const promise = axios.post("http://localhost:5000/posts", body, config);
+
+    promise
+      .then((res) => {
+        setPromiseFinished(false);
+        setLink("");
+        setContent("");
+      })
+      .catch((err) => {
+        setPromiseFinished(false);
+        alert("Houve um erro ao publicar seu link!");
+      });
+  }
 
   return (
     <Container>
-      <h2>timeline</h2>
       <PostContainer>
         <div>
           <img
@@ -16,7 +46,7 @@ export default function Post() {
           />
           <p>{`What are you going to share today?`}</p>
         </div>
-        <form>
+        <form onSubmit={(e) => submit(e)}>
           <input
             type="url"
             id="url"
@@ -32,20 +62,28 @@ export default function Post() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <button>Publish</button>
+          {promiseFinished ? (
+            <button>Publishing</button>
+          ) : (
+            <button>Publish</button>
+          )}
         </form>
       </PostContainer>
+      {promiseFinished ? <Block /> : null}
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 40%;
-  padding: 1rem;
-  margin-top: 3rem;
+  width: 100%;
+  max-width:65%;
+  padding: 0rem;
+  
   color: #fff;
   color: #fff;
   text-align: left;
+  position: relative;
+
 
   h2 {
     font-size: 2.5rem;
@@ -53,8 +91,8 @@ const Container = styled.div`
     margin-bottom: 2rem;
     font-family: "Oswald", sans-serif !important;
   }
-  @media (min-width: 0) and (max-width: 820px) {
-    width: 100%;
+  @media (min-width: 0) and (max-width: 700px) {
+    max-width:100%;
     padding: 1rem 0 0 0;
 
     h2 {
@@ -77,8 +115,8 @@ const PostContainer = styled.div`
     font-size: 1.1rem;
 
     img {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       margin-right: 0.5rem;
     }
@@ -117,7 +155,7 @@ const PostContainer = styled.div`
     }
   }
 
-  @media (min-width: 0) and (max-width: 820px) {
+  @media (min-width: 0) and (max-width: 700px) {
     border-radius: 0;
 
     div {
@@ -130,4 +168,15 @@ const PostContainer = styled.div`
       }
     }
   }
+`;
+
+const Block = styled.div`
+  position: absolute;
+  top: 83px;
+  left: 0;
+  width: 100%;
+  height: 248px;
+  background-color: #fff;
+  opacity: 0.3;
+  border-radius: 10px;
 `;
