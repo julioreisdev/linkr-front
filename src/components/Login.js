@@ -35,6 +35,7 @@ export default function Login() {
         const data = { ...re.data };
         const dataString = JSON.stringify(data);
 
+        localStorage.setItem("@tokenJWT", JSON.stringify(re.data));
         localStorage.setItem("data", dataString);
 
         navigate("/timeline");

@@ -1,9 +1,40 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 
 export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
+  const [promiseFinished, setPromiseFinished] = useState(false);
+
+  function submit(e) {
+    e.preventDefault();
+    const body = {
+      url: link,
+      content,
+    };
+
+    const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    setPromiseFinished(true);
+    const promise = axios.post("http://localhost:5000/posts", body, config);
+
+    promise
+      .then((res) => {
+        setPromiseFinished(false);
+        setLink("");
+        setContent("");
+      })
+      .catch((err) => {
+        setPromiseFinished(false);
+        alert("Houve um erro ao publicar seu link!");
+      });
+  }
 
   return (
     <Container>
@@ -16,7 +47,7 @@ export default function Post() {
           />
           <p>{`What are you going to share today?`}</p>
         </div>
-        <form>
+        <form onSubmit={(e) => submit(e)}>
           <input
             type="url"
             id="url"
@@ -32,9 +63,14 @@ export default function Post() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <button>Publish</button>
+          {promiseFinished ? (
+            <button>Publishing</button>
+          ) : (
+            <button>Publish</button>
+          )}
         </form>
       </PostContainer>
+      {promiseFinished ? <Block /> : null}
     </Container>
   );
 }
@@ -46,6 +82,7 @@ const Container = styled.div`
   color: #fff;
   color: #fff;
   text-align: left;
+  position: relative;
 
   h2 {
     font-size: 2.5rem;
@@ -130,4 +167,15 @@ const PostContainer = styled.div`
       }
     }
   }
+`;
+
+const Block = styled.div`
+  position: absolute;
+  top: 83px;
+  left: 0;
+  width: 100%;
+  height: 248px;
+  background-color: #fff;
+  opacity: 0.3;
+  border-radius: 10px;
 `;
