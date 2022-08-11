@@ -105,7 +105,7 @@ padding:10px 17px;
 position:fixed;
 top:0;
 left:0;
-
+z-index: 1;
 h3{
     color: white;
 }
