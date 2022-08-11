@@ -1,9 +1,7 @@
-
 import elementStatusContext from "../context/ElementsStatus.js";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-
 
 import SignUp from "./authRoute/SignUp";
 import Login from "./authRoute/Login";
@@ -16,6 +14,8 @@ export default function App() {
   const [userImg, setUserImg] = useState(avatar);
   const [postLoader, setPostLoader] = useState(false);
   const [Status, Setstatus] = useState({ dropDown: "disable" });
+  const [searchPeople, setSearchPeople] = useState("");
+
   return (
     <UserContext.Provider
       value={{
@@ -27,6 +27,8 @@ export default function App() {
         setUserImg,
         postLoader,
         setPostLoader,
+        searchPeople,
+        setSearchPeople,
       }}
     >
       <elementStatusContext.Provider value={{ Status, Setstatus }}>
@@ -35,7 +37,7 @@ export default function App() {
             <Route path="/" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/timeline" element={<TimelinePage />} />
-            <Route path="/hashtag/:hashtag" element={<HashtagPage/>}/>  
+            <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
           </Routes>
         </BrowserRouter>
       </elementStatusContext.Provider>

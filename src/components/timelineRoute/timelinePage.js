@@ -9,7 +9,10 @@ import Post from "../Post/Post.js";
 import PostPreview from "../Post/PostPreview.js";
 import Hastags from "./Hastags.js";
 import TimelineTitle from "./timelineTitle.js";
-import {ContentMain,TotalContainer} from "../../assets/css/style/timelineStyle.js";
+import {
+  ContentMain,
+  TotalContainer,
+} from "../../assets/css/style/timelineStyle.js";;
 import { Loaderspinner } from "../Loaderspinner.js";
 import axios from "axios";
 
@@ -25,7 +28,9 @@ export default function TimelinePage(){
     const [postList, setPostList] = useState([]);
     const [loading, setLoading] = useState(false);
     const {Status,Setstatus} = useContext(elementStatusContext)
-    const { userdata, postLoader, setPostLoader } = useContext(UserContext);
+    const {
+      userdata, postLoader, setPostLoader, searchPeople, setSearchPeople
+    } = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -92,13 +97,29 @@ export default function TimelinePage(){
 }
 
 const PostContainer = styled.div`
-  width: auto;
+  width: 63%;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  @media(max-width: 620px) {
-    width: 100%;
+  @media (max-width: 620px) {
+    width: 100% !important;
   }
-`
+`;
+
+const Search = styled.input`
+  width: 70%;
+  padding: 0.5rem;
+  border: 1px solid #c6c6c6;
+  border-radius: 8px;
+  margin-top: 1rem;
+
+  ::placeholder {
+    color: #c6c6c6;
+  }
+
+  @media (min-width: 621px) {
+    display: none;
+  }
+`;
