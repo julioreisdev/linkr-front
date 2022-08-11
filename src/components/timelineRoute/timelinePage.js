@@ -5,7 +5,7 @@ import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
 import NavBarr from "../navBarr/navBarr.js";
 import Post from "../Post/Post.js";
 import Hastags from "../Hastags.js";
-
+import TimelineTitle from "./timelineTitle.js";
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
@@ -24,13 +24,26 @@ export default function TimelinePage(){
             <TotalContainer >
                 <NavBarr  closeDropDown={closeDropDown}/>
                 <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >
-                    <Hastags/>
+                  <TimelineTitle>
+                    timeline
+                  </TimelineTitle>
+                  <ContentMain>
                     <Post />
+                    <Hastags/>
+                  </ContentMain>
                 </div>
             </TotalContainer>
         </>
     )
 }
+const ContentMain= styled.main`
+  width:100%;
+  max-width:936px;
+  display: flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+`
 
 const TotalContainer = styled.section`
     width: 100vw;
@@ -42,14 +55,15 @@ const TotalContainer = styled.section`
     align-items: center;
     
 &&>div{
-    padding-top:75px;
+    padding-top:90px;
     width:100%;
     height:100%;
     display:flex;
-    justify-content:center;
+    flex-direction:column;
+    justify-content:flex-start;
     align-items:center;
 }
- @media (min-width: 0) and (max-width: 820px) {
+ @media (min-width: 0) and (max-width: 700px) {
     padding: 72px 0 0 0;
   }
 `;

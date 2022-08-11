@@ -8,15 +8,7 @@ import UserContext from "../contexts/UserContext";
 
 import SignUp from "./SignUp";
 import Login from "./Login";
-
-<<<<<<< HEAD
-=======
-import "../assets/css/reset.css";
-import "../assets/css/style.css";
-
 import avatar from "../assets/images/linkr_Logo.png";
-
->>>>>>> 95f2b3bcc4e11a29afc4999c293e7b47ddcbaf15
 export default function App() {
   const [userdata, setUserdata] = useState("");
   const [userName, setUserName] = useState("...");

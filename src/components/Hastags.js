@@ -60,8 +60,8 @@ const HastagsLink = styled(Link)`
 `
 
 const TagsBoxSection = styled.section`
-    width:301px;
-    height:344px;
+    width:100%;
+    height:84%;
     padding: 15px 15px;
     background-color:#171717;
     border-radius:0 0 10px 10px ;
@@ -72,14 +72,14 @@ const TagsBoxSection = styled.section`
 `
 
 const BorderHorizon = styled.div`
-    width:301px;
+    width:100%;
     height:1px;
     background-color:#484848;
 `
 
 const TitleArticle = styled.article`
-    width:301px;
-    height:61px;
+    width:100%;
+    height:15%;
     padding: 6px 15px;
     background-color:#171717;
     border-radius:10px 10px 0 0;
@@ -87,15 +87,19 @@ const TitleArticle = styled.article`
     justify-content: flex-start;
     align-items:center;
 
-h3{
-    font-family:'Oswald', sans-serif;
+&&>h3{
+    font-family:'Oswald', sans-serif !important;
     font-weight:bold;
     font-size:27px;
 }
 `
 
 const AsideStyled = styled.aside`
-    width:301px;
+    width:33%;
+    min-width:200px;
     height: 406px;
     
+    @media (max-width:700px) {
+        display:none
+    }
 `
