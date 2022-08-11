@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import {Container,PostContainer,Block} from "../../assets/css/style/postFormStyle.js"
+import {
+  Container,
+  PostContainer,
+  Block,
+} from "../../assets/css/style/postFormStyle.js";
 export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
@@ -8,21 +12,24 @@ export default function Post() {
 
   function submit(e) {
     e.preventDefault();
+
+    if (link.length === 0) {
+      alert("O link é obrigatório!");
+      return;
+    }
+
     const body = {
       url: link,
       content,
     };
-
     const token = JSON.parse(localStorage.getItem("@tokenJWT"));
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-
     setPromiseFinished(true);
     const promise = axios.post("http://localhost:5000/posts", body, config);
-
     promise
       .then((res) => {
         setPromiseFinished(false);
@@ -31,7 +38,9 @@ export default function Post() {
       })
       .catch((err) => {
         setPromiseFinished(false);
-        alert("Houve um erro ao publicar seu link!");
+        alert(
+          "Houve um erro ao publicar seu link! Talvez seu link seja inválido :("
+        );
       });
   }
 
@@ -64,7 +73,7 @@ export default function Post() {
           {promiseFinished ? (
             <button>Publishing</button>
           ) : (
-            <button>Publish</button>
+            <button onClick={(e) => submit(e)}>Publish</button>
           )}
         </form>
       </PostContainer>
@@ -72,4 +81,3 @@ export default function Post() {
     </Container>
   );
 }
-

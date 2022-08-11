@@ -2,14 +2,13 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  max-width:65%;
+  max-width: 65%;
   padding: 0rem;
-  
+
   color: #fff;
   color: #fff;
   text-align: left;
   position: relative;
-
 
   h2 {
     font-size: 2.5rem;
@@ -18,7 +17,7 @@ export const Container = styled.div`
     font-family: "Oswald", sans-serif !important;
   }
   @media (min-width: 0) and (max-width: 700px) {
-    max-width:100%;
+    max-width: 100%;
     padding: 1rem 0 0 0;
 
     h2 {
@@ -45,6 +44,10 @@ export const PostContainer = styled.div`
       height: 50px;
       border-radius: 50%;
       margin-right: 0.5rem;
+    }
+
+    p {
+      color: #555;
     }
   }
 
@@ -78,6 +81,10 @@ export const PostContainer = styled.div`
       color: #fff;
       padding: 0.2rem 1.5rem;
       border-radius: 3px;
+
+      :hover {
+        cursor: pointer;
+      }
     }
   }
 
@@ -98,11 +105,11 @@ export const PostContainer = styled.div`
 
 export const Block = styled.div`
   position: absolute;
-  top: 83px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 248px;
-  background-color: #fff;
+  height: 252px;
+  background-color: "#fff";
   opacity: 0.3;
   border-radius: 10px;
 `;
