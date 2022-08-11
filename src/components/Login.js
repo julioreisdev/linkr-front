@@ -12,6 +12,7 @@ export default function Login() {
   const { setUserdata } = useContext(UserContext);
   const navigate = useNavigate();
 
+
   const userlogin = localStorage.getItem("data");
   if (userlogin) {
     setUserdata(JSON.parse(userlogin));
@@ -25,7 +26,7 @@ export default function Login() {
 
   if (loading) {
     const body = { email, password };
-    const promise = axios.post(`http://localhost:5000/signin`, body);
+    const promise = axios.post(`${process.env.REACT_APP_URL}/signin`, body);
 
     promise
       .then((re) => {
