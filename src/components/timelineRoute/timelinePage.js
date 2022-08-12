@@ -14,7 +14,7 @@ import TimelineTitle from "./timelineTitle.js";
 import {
   ContentMain,
   TotalContainer,
-} from "../../assets/css/style/timelineStyle.js";;
+} from "../../assets/css/style/timelineStyle.js";
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
@@ -24,14 +24,13 @@ function closeDropDown(Status, Setstatus, e) {
   }
 }
 
-export default function TimelinePage(){
-    const [postList, setPostList] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const {Status,Setstatus} = useContext(elementStatusContext)
-    const {
-      userdata, postLoader, setPostLoader, searchPeople, setSearchPeople
-    } = useContext(UserContext);
-    const navigate = useNavigate();
+export default function TimelinePage() {
+  const [postList, setPostList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { Status, Setstatus } = useContext(elementStatusContext);
+  const { userdata, postLoader, setPostLoader, searchPeople, setSearchPeople } =
+    useContext(UserContext);
+  const navigate = useNavigate();
 
     useEffect(() => {
       setLoading(true);
@@ -47,56 +46,66 @@ export default function TimelinePage(){
             config
         );
 
-        promise.then((re) => {
-          setPostList(re.data);
-          setPostLoader(false);
-          setLoading(false);
-        });
-      } else {
-        alert("An error occured while trying to fetch the posts, please refresh the page");
-        localStorage.removeItem('data');
-        navigate("/");
-      }
-    }, [userdata, postLoader]);
+      promise.then((re) => {
+        setPostList(re.data);
+        setPostLoader(false);
+        setLoading(false);
+      });
+    } else {
+      alert(
+        "An error occured while trying to fetch the posts, please refresh the page"
+      );
+      localStorage.removeItem("data");
+      navigate("/");
+    }
+  }, [userdata, postLoader]);
 
-    return(
-        <>
-            <GlobalStyle/>
-            <TotalContainer >
-                <NavBarr  closeDropDown={closeDropDown}/>
-                <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >
-                  <TimelineTitle>
-                    timeline
-                  </TimelineTitle>
-                  <ContentMain>
-                    <PostContainer>
-                      <Post />
-                      {loading ?
-                        <Loaderspinner />
-                        :
+  return (
+    <>
+      <GlobalStyle />
+      <TotalContainer>
+      <Search
+        type="text"
+        placeholder="Search for people..."
+        value={searchPeople}
+        onChange={(e) => setSearchPeople(e.target.value)}
+      />
+        <NavBarr closeDropDown={closeDropDown} />
+        <div
+          onClick={(e) => {
+            closeDropDown(Status, Setstatus, e);
+          }}
+        >
+          <TimelineTitle>timeline</TimelineTitle>
+          <ContentMain>
+            <PostContainer>
+              <Post />
+              {loading ? (
+                <Loaderspinner />
+              ) : (
                         postList.length === 0 ?
                           <h1> There are no posts yet </h1>
                           :
-                          postList.map((post, index) => (
-                            <PostPreview
-                              key={index}
-                              userName={post.userName}
-                              userImage={post.userImage}
-                              postContent={post.postContent}
-                              url={post.url}
-                              urlTitle={post.urlTitle}
-                              urlDescription={post.urlDescription}
-                              urlImage={post.urlImage}
-                            />
-                          ))
-                      }
-                    </PostContainer>
-                    <Hastags/>
-                  </ContentMain>
-                </div>
-            </TotalContainer>
-        </>
-    )
+                  postList.map((post, index) => (
+                    <PostPreview
+                      key={index}
+                      userName={post.userName}
+                      userImage={post.userImage}
+                      postContent={post.postContent}
+                      url={post.url}
+                      urlTitle={post.urlTitle}
+                      urlDescription={post.urlDescription}
+                      urlImage={post.urlImage}
+                    />
+                  ))
+              )}
+            </PostContainer>
+            <Hastags />
+          </ContentMain>
+        </div>
+      </TotalContainer>
+    </>
+  );
 }
 
 const PostContainer = styled.div`
