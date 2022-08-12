@@ -5,10 +5,12 @@ import {
   PostContainer,
   Block,
 } from "../../assets/css/style/postFormStyle.js";
+import UserContext from "../../contexts/UserContext.js";
 export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [promiseFinished, setPromiseFinished] = useState(false);
+
   const [hashtags,setHashtags] = useState("")
   function setHashtagsAndContent (e){
     const contentPhrase = e.target.value
@@ -22,6 +24,9 @@ export default function Post() {
     setHashtags(hashtags)
     setContent(contentPhrase)
   }
+
+  const { setPostLoader } = useContext(UserContext);
+
 
   function submit(e) {
     e.preventDefault();
@@ -47,6 +52,7 @@ export default function Post() {
     promise
       .then((res) => {
         setPromiseFinished(false);
+        setPostLoader(true);
         setLink("");
         setContent("");
       })
