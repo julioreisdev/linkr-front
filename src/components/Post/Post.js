@@ -31,7 +31,8 @@ export default function Post() {
       },
     };
     setPromiseFinished(true);
-    const promise = axios.post("http://localhost:5000/posts", body, config);
+    const api = `${process.env.REACT_APP_URL_API}/posts`;
+    const promise = axios.post(api, body, config);
     promise
       .then((res) => {
         setPromiseFinished(false);
