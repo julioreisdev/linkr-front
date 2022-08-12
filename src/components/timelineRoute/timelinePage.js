@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Loaderspinner } from "../Loaderspinner.js";
+import axios from "axios";
 import styled from "styled-components";
 import elementStatusContext from "../../context/ElementsStatus.js";
 import UserContext from "../../contexts/UserContext";
@@ -12,8 +14,7 @@ import TimelineTitle from "./timelineTitle.js";
 import {
   ContentMain,
   TotalContainer,
-} from "../../assets/css/style/timelineStyle.js";
-import axios from "axios";
+} from "../../assets/css/style/timelineStyle.js";;
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
@@ -23,76 +24,76 @@ function closeDropDown(Status, Setstatus, e) {
   }
 }
 
-export default function TimelinePage() {
-  const [postList, setPostList] = useState([]);
-  const [postLoading, setPostLoading] = useState(false);
-  const { Status, Setstatus } = useContext(elementStatusContext);
-  const { userdata } = useContext(UserContext);
-  const navigate = useNavigate();
-  const { searchPeople, setSearchPeople } = useContext(UserContext);
+export default function TimelinePage(){
+    const [postList, setPostList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const {Status,Setstatus} = useContext(elementStatusContext)
+    const {
+      userdata, postLoader, setPostLoader, searchPeople, setSearchPeople
+    } = useContext(UserContext);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userdata !== "") {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userdata}`,
-        },
-      };
+    useEffect(() => {
+      setLoading(true);
+      if(userdata !== "") {
+        const config = {
+          headers: {
+              Authorization: `Bearer ${userdata}`
+          }
+        };
+        
+        const promise = axios.get(
+            `${process.env.REACT_APP_URL_API}/posts/0`,
+            config
+        );
 
-      const promise = axios.get(
-        `${process.env.REACT_APP_URL_API}/posts/0`,
-        config
-      );
+        promise.then((re) => {
+          setPostList(re.data);
+          setPostLoader(false);
+          setLoading(false);
+        });
+      } else {
+        alert("An error occured while trying to fetch the posts, please refresh the page");
+        localStorage.removeItem('data');
+        navigate("/");
+      }
+    }, [userdata, postLoader]);
 
-      promise.then((re) => {
-        setPostList(re.data);
-      });
-    } else {
-      alert("Error, could not login");
-      localStorage.removeItem("data");
-      navigate("/");
-    }
-  }, [userdata]);
-
-  return (
-    <>
-      <GlobalStyle />
-      <TotalContainer>
-        <Search
-          type="text"
-          placeholder="Search for people..."
-          value={searchPeople}
-          onChange={(e) => setSearchPeople(e.target.value)}
-        />
-        <NavBarr closeDropDown={closeDropDown} />
-        <div
-          onClick={(e) => {
-            closeDropDown(Status, Setstatus, e);
-          }}
-        >
-          <TimelineTitle>timeline</TimelineTitle>
-          <ContentMain>
-            <PostContainer>
-              <Post />
-              {postList.map((post, index) => (
-                <PostPreview
-                  key={index}
-                  userName={post.userName}
-                  userImage={post.userImage}
-                  postContent={post.postContent}
-                  url={post.url}
-                  urlTitle={post.urlTitle}
-                  urlDescription={post.urlDescription}
-                  urlImage={post.urlImage}
-                />
-              ))}
-            </PostContainer>
-            <Hastags />
-          </ContentMain>
-        </div>
-      </TotalContainer>
-    </>
-  );
+    return(
+        <>
+            <GlobalStyle/>
+            <TotalContainer >
+                <NavBarr  closeDropDown={closeDropDown}/>
+                <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >
+                  <TimelineTitle>
+                    timeline
+                  </TimelineTitle>
+                  <ContentMain>
+                    <PostContainer>
+                      <Post />
+                      {loading ?
+                        <Loaderspinner />
+                        :
+                        postList.map((post, index) => (
+                          <PostPreview
+                            key={index}
+                            userName={post.userName}
+                            userImage={post.userImage}
+                            postContent={post.postContent}
+                            url={post.url}
+                            urlTitle={post.urlTitle}
+                            urlDescription={post.urlDescription}
+                            urlImage={post.urlImage}
+                          />
+                        ))
+                      }
+                    </PostContainer>
+                    <Hastags/>
+                  </ContentMain>
+                </div>
+            </TotalContainer>
+        </>
+    )
 }
 
 const PostContainer = styled.div`
