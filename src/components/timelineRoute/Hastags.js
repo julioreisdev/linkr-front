@@ -19,7 +19,7 @@ export default function Hastags(){
     
 
     useEffect(()=>{
-        const promise = axios.get(`http://localhost:5000/tagsTrending`);
+        const promise = axios.get(`${process.env.REACT_APP_URL_API}/tagsTrending`);
         promise
             .then((re)=>{
                 SetHastagsData([...re.data])

@@ -9,6 +9,19 @@ export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [promiseFinished, setPromiseFinished] = useState(false);
+  const [hashtags,setHashtags] = useState("")
+  function setHashtagsAndContent (e){
+    const contentPhrase = e.target.value
+    const hashtags = contentPhrase.split(" ").filter((word) => {
+      if (word.includes("#") && word.length>1) {
+        return word;
+      }
+    });
+    console.log(contentPhrase)
+    console.log(hashtags)
+    setHashtags(hashtags)
+    setContent(contentPhrase)
+  }
 
   function submit(e) {
     e.preventDefault();
@@ -21,6 +34,7 @@ export default function Post() {
     const body = {
       url: link,
       content,
+      hashtags
     };
     const token = JSON.parse(localStorage.getItem("@tokenJWT"));
     const config = {
@@ -68,7 +82,7 @@ export default function Post() {
             id="content"
             placeholder="Awesome article about #javascript"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => setHashtagsAndContent (e)}
           />
           {promiseFinished ? (
             <button>Publishing</button>
