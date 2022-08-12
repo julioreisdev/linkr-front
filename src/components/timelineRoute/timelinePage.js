@@ -32,19 +32,27 @@ export default function TimelinePage() {
     useContext(UserContext);
   const navigate = useNavigate();
 
-    useEffect(() => {
-      setLoading(true);
-      if(userdata !== "") {
-        const config = {
-          headers: {
-              Authorization: `Bearer ${userdata}`
-          }
-        };
-        
-        const promise = axios.get(
-            `${process.env.REACT_APP_URL_API}/posts`,
-            config
-        );
+  const [teste, setTeste] = useState([
+    "teste",
+    "#outro",
+    "#javascript",
+    "#teste",
+  ]);
+  console.log(teste);
+
+  useEffect(() => {
+    setLoading(true);
+    if (userdata !== "") {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userdata}`,
+        },
+      };
+
+      const promise = axios.get(
+        `${process.env.REACT_APP_URL_API}/posts`,
+        config
+      );
 
       promise.then((re) => {
         setPostList(re.data);
@@ -64,12 +72,12 @@ export default function TimelinePage() {
     <>
       <GlobalStyle />
       <TotalContainer>
-      <Search
-        type="text"
-        placeholder="Search for people..."
-        value={searchPeople}
-        onChange={(e) => setSearchPeople(e.target.value)}
-      />
+        <Search
+          type="text"
+          placeholder="Search for people..."
+          value={searchPeople}
+          onChange={(e) => setSearchPeople(e.target.value)}
+        />
         <NavBarr closeDropDown={closeDropDown} />
         <div
           onClick={(e) => {
@@ -82,22 +90,21 @@ export default function TimelinePage() {
               <Post />
               {loading ? (
                 <Loaderspinner />
+              ) : postList.length === 0 ? (
+                <h1> There are no posts yet </h1>
               ) : (
-                        postList.length === 0 ?
-                          <h1> There are no posts yet </h1>
-                          :
-                  postList.map((post, index) => (
-                    <PostPreview
-                      key={index}
-                      userName={post.userName}
-                      userImage={post.userImage}
-                      postContent={post.postContent}
-                      url={post.url}
-                      urlTitle={post.urlTitle}
-                      urlDescription={post.urlDescription}
-                      urlImage={post.urlImage}
-                    />
-                  ))
+                postList.map((post, index) => (
+                  <PostPreview
+                    key={index}
+                    userName={post.userName}
+                    userImage={post.userImage}
+                    postContent={post.postContent}
+                    url={post.url}
+                    urlTitle={post.urlTitle}
+                    urlDescription={post.urlDescription}
+                    urlImage={post.urlImage}
+                  />
+                ))
               )}
             </PostContainer>
             <Hastags />
