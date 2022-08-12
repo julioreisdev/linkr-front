@@ -43,7 +43,7 @@ export default function TimelinePage(){
         };
         
         const promise = axios.get(
-            `${process.env.REACT_APP_URL_API}/posts/0`,
+            `${process.env.REACT_APP_URL_API}/posts`,
             config
         );
 

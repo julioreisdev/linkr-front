@@ -9,6 +9,10 @@ export default function PostPreview({
     urlDescription,
     urlImage
 }) {
+    function openUrl() {
+        window.open(url, '_blank');
+    }
+
     return(
         <PostBox>
             <LikeContainer>
@@ -19,7 +23,7 @@ export default function PostPreview({
                 <p>
                     {postContent !== null ? postContent : ""}
                 </p>
-                <div className="linkpreview" >
+                <div className="linkpreview" onClick={openUrl} >
                     <div className="linkdescription">
                         <h3>{urlTitle}</h3>
                         <p>{urlDescription}</p>
