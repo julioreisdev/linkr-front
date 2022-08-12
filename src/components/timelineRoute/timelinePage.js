@@ -32,14 +32,6 @@ export default function TimelinePage() {
     useContext(UserContext);
   const navigate = useNavigate();
 
-  const [teste, setTeste] = useState([
-    "teste",
-    "#outro",
-    "#javascript",
-    "#teste",
-  ]);
-  console.log(teste);
-
   useEffect(() => {
     setLoading(true);
     if (userdata !== "") {

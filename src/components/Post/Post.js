@@ -10,7 +10,7 @@ export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [promiseFinished, setPromiseFinished] = useState(false);
-  const { setPostLoader } = useContext(UserContext);
+  const { setPostLoader, userImg } = useContext(UserContext);
 
   function submit(e) {
     e.preventDefault();
@@ -52,10 +52,7 @@ export default function Post() {
     <Container>
       <PostContainer>
         <div>
-          <img
-            src="https://images.unsplash.com/photo-1618614944895-fc409a83ad80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-            alt="Profile"
-          />
+          <img src={userImg} alt="Profile" />
           <p>{`What are you going to share today?`}</p>
         </div>
         <form onSubmit={(e) => submit(e)}>
