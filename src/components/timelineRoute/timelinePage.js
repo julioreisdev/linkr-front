@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Loaderspinner } from "../Loaderspinner.js";
+import axios from "axios";
 import styled from "styled-components";
 import elementStatusContext from "../../context/ElementsStatus.js";
 import UserContext from "../../contexts/UserContext";
@@ -13,8 +15,6 @@ import {
   ContentMain,
   TotalContainer,
 } from "../../assets/css/style/timelineStyle.js";;
-import { Loaderspinner } from "../Loaderspinner.js";
-import axios from "axios";
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
