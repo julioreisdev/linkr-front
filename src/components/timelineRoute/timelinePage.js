@@ -74,18 +74,21 @@ export default function TimelinePage(){
                       {loading ?
                         <Loaderspinner />
                         :
-                        postList.map((post, index) => (
-                          <PostPreview
-                            key={index}
-                            userName={post.userName}
-                            userImage={post.userImage}
-                            postContent={post.postContent}
-                            url={post.url}
-                            urlTitle={post.urlTitle}
-                            urlDescription={post.urlDescription}
-                            urlImage={post.urlImage}
-                          />
-                        ))
+                        postList.length === 0 ?
+                          <h1> There are no posts yet </h1>
+                          :
+                          postList.map((post, index) => (
+                            <PostPreview
+                              key={index}
+                              userName={post.userName}
+                              userImage={post.userImage}
+                              postContent={post.postContent}
+                              url={post.url}
+                              urlTitle={post.urlTitle}
+                              urlDescription={post.urlDescription}
+                              urlImage={post.urlImage}
+                            />
+                          ))
                       }
                     </PostContainer>
                     <Hastags/>
@@ -103,6 +106,9 @@ const PostContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  h1 {
+    font-size: 20px;
+  }
   @media (max-width: 620px) {
     width: 100% !important;
   }
