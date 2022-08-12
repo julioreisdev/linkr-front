@@ -35,6 +35,7 @@ export default function TimelinePage(){
 
     useEffect(() => {
       setLoading(true);
+      console.log(userdata)
       if(userdata !== "") {
         const config = {
           headers: {

@@ -10,18 +10,22 @@ export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [promiseFinished, setPromiseFinished] = useState(false);
+  const [tags,setTags] = useState([])
 
-  const [hashtags,setHashtags] = useState("")
   function setHashtagsAndContent (e){
     const contentPhrase = e.target.value
-    const hashtags = contentPhrase.split(" ").filter((word) => {
-      if (word.includes("#") && word.length>1) {
-        return word;
-      }
-    });
+    const hashtags = contentPhrase.replaceAll("\n"," ")
+                                  .split(" ")
+                                  .map((word) => {
+                                    if (word.startsWith("#") && word.length>1) {
+                                      return word.slice(1,word.length);
+                                    }
+                                  }).filter((tag)=> {if(tag && !tag.includes("#")){return tag}});
+    // se tiver tempo transaforma essa logica em regex
+    const tags = hashtags.filter((tag,i)=> {if(hashtags.indexOf(tag)===i){return tag}})
     console.log(contentPhrase)
-    console.log(hashtags)
-    setHashtags(hashtags)
+    console.log(tags)
+    setTags(tags)
     setContent(contentPhrase)
   }
 
@@ -35,12 +39,12 @@ export default function Post() {
       alert("O link é obrigatório!");
       return;
     }
-
     const body = {
       url: link,
       content,
-      hashtags
+      tags
     };
+    
     const token = JSON.parse(localStorage.getItem("@tokenJWT"));
     const config = {
       headers: {

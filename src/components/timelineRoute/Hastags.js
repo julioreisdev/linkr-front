@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { LoaderspinnerTail } from "../Loaderspinner";
-import {HastagsLink,TagsBoxSection,BorderHorizon,TitleArticle,AsideStyled} from "../../assets/css/style/hashtagAsideStyle.js"
-
+import {HastagsLink,TagsBoxSection,BorderHorizon,TitleArticle,AsideStyled} from "../../assets/css/style/hashtagAsideStyle.js";
+import UserContext from "../../contexts/UserContext.js";
 function TagsBox ({hastagsData,loading}){
     const isLoad= loading ? (<LoaderspinnerTail/>):
     (hastagsData.map((hashtag,index)=>(<HastagsLink key={index} to={`/hashtag/${hashtag.name}`}>#{hashtag.name}</HastagsLink>)));
@@ -14,6 +14,7 @@ function TagsBox ({hastagsData,loading}){
 }
 
 export default function Hastags(){
+    const{postLoader}=useContext(UserContext)
     const [HastagsData,SetHastagsData] = useState([]);
     const [loading, setLoading] = useState(true);
     
@@ -30,7 +31,7 @@ export default function Hastags(){
                 console.log(error)
                
             });
-    },[]);
+    },[postLoader]);
     
     return(
     <AsideStyled>
