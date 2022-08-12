@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ReactTagify } from "react-tagify";
 
 export default function PostPreview({
   userName,
@@ -9,34 +10,31 @@ export default function PostPreview({
   urlDescription,
   urlImage,
 }) {
-    function openUrl() {
-        window.open(url, '_blank');
-    }
+  function openUrl() {
+    window.open(url, "_blank");
+  }
 
-    return(
-        <PostBox>
-            <LikeContainer>
-                <img alt={userName} src={userImage}/>
-            </LikeContainer>
-            <LinkContainer>
-                <h2>{userName}</h2>
-                <p>
-                    {postContent !== null ? postContent : ""}
-                </p>
-                <div className="linkpreview" onClick={openUrl} >
-                    <div className="linkdescription">
-                        <h3>{urlTitle}</h3>
-                        <p>{urlDescription}</p>
-                        <p className="url">{url}</p>
-                    </div>
-                    <img
-                        alt={urlTitle}
-                        src={urlImage}
-                    />
-                </div>
-            </LinkContainer>
-        </PostBox>
-    );
+  return (
+    <PostBox>
+      <LikeContainer>
+        <img alt={userName} src={userImage} />
+      </LikeContainer>
+      <LinkContainer>
+        <h2>{userName}</h2>
+        <ReactTagify>
+          <p>{postContent !== null ? postContent : ""}</p>
+        </ReactTagify>
+        <div className="linkpreview" onClick={openUrl}>
+          <div className="linkdescription">
+            <h3>{urlTitle}</h3>
+            <p>{urlDescription}</p>
+            <p className="url">{url}</p>
+          </div>
+          <img alt={urlTitle} src={urlImage} />
+        </div>
+      </LinkContainer>
+    </PostBox>
+  );
 }
 
 const PostBox = styled.div`
