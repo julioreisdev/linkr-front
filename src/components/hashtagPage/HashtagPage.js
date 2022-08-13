@@ -35,7 +35,7 @@ export default function HashtagPage(){
                 <NavBarr  closeDropDown={closeDropDown}/>
                 <div onClick={(e)=>{closeDropDown(Status,Setstatus,e)}} >
                   <TimelineTitle>
-                    {`bla ${<h1>{teste}</h1>}`}
+                    {`# ${hashtag}`}
                   </TimelineTitle>
                   <ContentMain>
                   

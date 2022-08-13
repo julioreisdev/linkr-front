@@ -2,6 +2,7 @@ import elementStatusContext from "../context/ElementsStatus.js";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
+import "../assets/css/style.css";
 
 import SignUp from "./authRoute/SignUp";
 import Login from "./authRoute/Login";
