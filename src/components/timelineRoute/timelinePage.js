@@ -87,6 +87,7 @@ export default function TimelinePage() {
                 postList.map((post, index) => (
                   <PostPreview
                     key={index}
+                    userId={post.userId}
                     userName={post.userName}
                     userImage={post.userImage}
                     postContent={post.postContent}

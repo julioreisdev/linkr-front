@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function UserPreview({userName, userImage}) {
+export default function UserPreview({ userId, userName, userImage }) {
     return(
         <UserLayout>
             <img alt={userName} src={userImage} />
-            <p>{userName}</p>
+            <Link className="link" to={`/user/${userId}`}>
+                <p>{userName}</p>
+            </Link>
         </UserLayout>
     );
 }
@@ -23,12 +26,14 @@ const UserLayout = styled.div`
         border-radius: 80px;
         object-fit: cover;
     }
-    > p {
+    .link {
         width: auto;
         height: 100%;
         margin-left: 12px;
         margin-top: 16px;
         text-align: left;
+    }
+    .link > p{
         font-family: 'Lato', sans-serif;
         font-weight: 400;
         font-size: 19px;

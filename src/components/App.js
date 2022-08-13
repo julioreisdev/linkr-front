@@ -9,6 +9,8 @@ import Login from "./authRoute/Login";
 import TimelinePage from "./timelineRoute/timelinePage.js";
 import HashtagPage from "./hashtagPage/HashtagPage.js";
 import avatar from "../assets/images/linkr_Logo.png";
+import UserPage from "./userPage/UserPage.js";
+
 export default function App() {
   const [userdata, setUserdata] = useState("");
   const [userName, setUserName] = useState("...");
@@ -39,6 +41,7 @@ export default function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/timeline" element={<TimelinePage />} />
             <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+            <Route path="/user/:id" element={<UserPage />} />
           </Routes>
         </BrowserRouter>
       </elementStatusContext.Provider>

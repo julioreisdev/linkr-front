@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { PostBox, TagContainer, LikeContainer, LinkContainer } from "./PostStyle";
 
 export default function PostPreview({
+  userId,
   userName,
   userImage,
   postContent,
@@ -37,7 +38,9 @@ export default function PostPreview({
         <img alt={userName} src={userImage} />
       </LikeContainer>
       <LinkContainer>
-        <h2>{userName}</h2>
+        <Link className="link" to={`/user/${userId}`}>
+          <h2>{userName}</h2>
+        </Link>
         <p>{postContent !== null ? postContent : ""}</p>
         <TagContainer>
           {tagsPost.map((t) => (
