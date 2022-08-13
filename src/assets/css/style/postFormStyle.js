@@ -4,6 +4,8 @@ export const Container = styled.div`
   width: 100%;
   padding: 0rem;
 
+  margin-bottom: 1rem;
+
   color: #fff;
   color: #fff;
   text-align: left;

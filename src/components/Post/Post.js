@@ -10,6 +10,7 @@ export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [promiseFinished, setPromiseFinished] = useState(false);
+<<<<<<< HEAD
   const [tags,setTags] = useState([])
 
   function setHashtagsAndContent (e){
@@ -30,6 +31,9 @@ export default function Post() {
   }
 
   const { setPostLoader } = useContext(UserContext);
+=======
+  const { setPostLoader, userImg } = useContext(UserContext);
+>>>>>>> 810c1cf9f6060f8bf25167b262239143915a1214
 
 
   function submit(e) {
@@ -52,7 +56,8 @@ export default function Post() {
       },
     };
     setPromiseFinished(true);
-    const promise = axios.post("http://localhost:5000/posts", body, config);
+    const api = `${process.env.REACT_APP_URL_API}/posts`;
+    const promise = axios.post(api, body, config);
     promise
       .then((res) => {
         setPromiseFinished(false);
@@ -72,10 +77,7 @@ export default function Post() {
     <Container>
       <PostContainer>
         <div>
-          <img
-            src="https://images.unsplash.com/photo-1618614944895-fc409a83ad80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-            alt="Profile"
-          />
+          <img src={userImg} alt="Profile" />
           <p>{`What are you going to share today?`}</p>
         </div>
         <form onSubmit={(e) => submit(e)}>

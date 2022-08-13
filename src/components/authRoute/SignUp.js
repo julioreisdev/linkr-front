@@ -24,8 +24,10 @@ export default function SignUp() {
       pictureUrl,
     };
 
+    const api = `${process.env.REACT_APP_URL_API}/signup`;
+
     setPromiseLoading(true);
-    const promise = axios.post("http://localhost:5000/signup", body);
+    const promise = axios.post(api, body);
     promise
       .then((res) => {
         setPromiseLoading(false);
