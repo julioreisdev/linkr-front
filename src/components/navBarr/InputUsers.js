@@ -32,10 +32,7 @@ export default function InputUsers({ mobile }) {
     
     if(mobile){
         return(
-            <UsersBox
-              onFocus={() => setShowList(true)}
-              onBlur={() => setShowList(false)}
-            >
+            <UsersBox onClick={() => setShowList(!showList)}>
               <DebounceInput element={ SearchMobile }
                 type="text"
                 placeholder="Search for people..."
@@ -49,6 +46,7 @@ export default function InputUsers({ mobile }) {
                   {userListFiltered.map((user, index) => (
                     <UserPreview
                       key={index}
+                      userId={user.id}
                       userName={user.userName}
                       userImage={user.image}
                     />
@@ -61,10 +59,7 @@ export default function InputUsers({ mobile }) {
         );
     } else {
         return(
-            <UsersBox
-              onFocus={() => setShowList(true)}
-              onBlur={() => setShowList(false)}
-            >
+            <UsersBox onClick={() => setShowList(!showList)}>
               <DebounceInput element={ Search }
                 type="text"
                 placeholder="Search for people..."
@@ -78,6 +73,7 @@ export default function InputUsers({ mobile }) {
                   {userListFiltered.map((user, index) => (
                     <UserPreview
                       key={index}
+                      userId={user.id}
                       userName={user.userName}
                       userImage={user.image}
                     />
