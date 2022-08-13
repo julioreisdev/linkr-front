@@ -32,6 +32,7 @@ export default function TimelinePage() {
     useContext(UserContext);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     setLoading(true);
     if (userdata !== "") {
@@ -40,7 +41,6 @@ export default function TimelinePage() {
           Authorization: `Bearer ${userdata}`,
         },
       };
-
       const promise = axios.get(
         `${process.env.REACT_APP_URL_API}/posts`,
         config
