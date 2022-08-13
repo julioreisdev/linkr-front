@@ -10,7 +10,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { userdata, setUserdata } = useContext(UserContext);
+  const { setUserdata } = useContext(UserContext);
   const navigate = useNavigate();
 
 

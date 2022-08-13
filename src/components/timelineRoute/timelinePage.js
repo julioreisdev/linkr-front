@@ -15,6 +15,8 @@ import {
   ContentMain,
   TotalContainer,
 } from "./timelineStyle.js";
+import InputUsers from "../navBarr/InputUsers.js";
+
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
@@ -28,8 +30,9 @@ export default function TimelinePage() {
   const [postList, setPostList] = useState([]);
   const [loading, setLoading] = useState(false);
   const { Status, Setstatus } = useContext(elementStatusContext);
-  const { userdata, postLoader, setPostLoader, searchPeople, setSearchPeople } =
-    useContext(UserContext);
+  const {
+    userdata, postLoader, setPostLoader
+  } = useContext(UserContext);
   const navigate = useNavigate();
 
 
@@ -64,12 +67,9 @@ export default function TimelinePage() {
     <>
       <GlobalStyle />
       <TotalContainer>
-        <Search
-          type="text"
-          placeholder="Search for people..."
-          value={searchPeople}
-          onChange={(e) => setSearchPeople(e.target.value)}
-        />
+      <InputUsers 
+        mobile={true}
+      />
         <NavBarr closeDropDown={closeDropDown} />
         <div
           onClick={(e) => {
@@ -88,6 +88,7 @@ export default function TimelinePage() {
                 postList.map((post, index) => (
                   <PostPreview
                     key={index}
+                    userId={post.userId}
                     userName={post.userName}
                     userImage={post.userImage}
                     postContent={post.postContent}
@@ -120,21 +121,5 @@ const PostContainer = styled.div`
   }
   @media (max-width: 620px) {
     width: 100% !important;
-  }
-`;
-
-const Search = styled.input`
-  width: 70%;
-  padding: 0.5rem;
-  border: 1px solid #c6c6c6;
-  border-radius: 8px;
-  margin-top: 1rem;
-
-  ::placeholder {
-    color: #c6c6c6;
-  }
-
-  @media (min-width: 621px) {
-    display: none;
   }
 `;

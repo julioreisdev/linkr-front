@@ -13,6 +13,7 @@ import {
   NavBarrStyled,
   LogoStyled,
 } from "../../assets/css/style/navBarrStyle.js";
+import InputUsers from "./InputUsers";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
@@ -66,11 +67,8 @@ export default function NavBarr({ closeDropDown }) {
         onClick={() => navigate("/timeline")}
       />
 
-      <Search
-        type="text"
-        placeholder="Search for people..."
-        value={searchPeople}
-        onChange={(e) => setSearchPeople(e.target.value)}
+      <InputUsers
+        mobile={false}
       />
 
       <Menu>
@@ -98,19 +96,3 @@ export default function NavBarr({ closeDropDown }) {
     </NavBarrStyled>
   );
 }
-
-const Search = styled.input`
-  width: 50%;
-  padding: 0.5rem;
-  border: 1px solid #c6c6c6;
-  border-radius: 8px;
-  position: relative !important;
-
-  ::placeholder {
-    color: #c6c6c6;
-  }
-
-  @media (min-width: 0) and (max-width: 620px) {
-    display: none;
-  }
-`;
