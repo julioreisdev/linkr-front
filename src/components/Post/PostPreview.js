@@ -51,19 +51,9 @@ export default function PostPreview({
           tagClicked={(tag)=> redirectToHashtagPage(tag) }>
         <p>
         {postContent !== null ? postContent:""}
-        {/* {postContent !== null ? postContent.split(" ")
-          .map((word)=>{
-          if(word.startsWith("#")){
-            return <Link to={`/hashtag/${word.replaceAll("#","")}`}> {word}</Link>
-          }
-          return word + " "}) : ""} */}
         </p>
         </ReactTagify>
-        {/* <TagContainer>
-          {tagsPost.map((t) => (
-            <TagsLayout t={t} />
-          ))}
-        </TagContainer> */}
+       
         <div className="linkpreview" onClick={openUrl}>
           <div className="linkdescription">
             <h3>{urlTitle}</h3>
