@@ -13,6 +13,7 @@ import {
   NavBarrStyled,
   LogoStyled,
 } from "../../assets/css/style/navBarrStyle.js";
+import InputUsers from "./InputUsers";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
