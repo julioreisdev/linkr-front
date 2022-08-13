@@ -91,6 +91,7 @@ export default function TimelinePage() {
                     userName={post.userName}
                     userImage={post.userImage}
                     postContent={post.postContent}
+                    tags={post.tags}
                     url={post.url}
                     urlTitle={post.urlTitle}
                     urlDescription={post.urlDescription}
