@@ -1,5 +1,5 @@
 import { ReactTagify } from "react-tagify";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   PostBox, PostOptions,TagContainer, LikeContainer, LinkContainer
@@ -8,6 +8,7 @@ import { FaPen, FaTrash } from "react-icons/fa";
 
 export default function PostPreview({
   userId,
+  postId,
   userName,
   userImage,
   postContent,
@@ -20,15 +21,31 @@ export default function PostPreview({
   function openUrl() {
     window.open(url, "_blank");
   }
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [likePost, setLikePost] = useState(false);
   const [tagsPost, setTagsPosts] = useState([]);
   useEffect(() => {
     setTagsPosts(tags);
   }, []);
 
-  function redirectToHashtagPage(tag){
-    if(tag.startsWith("#")){
-      navigate(`/hashtag/${tag.replaceAll("#","")}`)
+  useEffect(() => {
+    const api = `${process.env.REACT_APP_URL_API}/likes`;
+    const body = {
+      postLikeId: "oias",
+    };
+    const promise = axios.get(api, {postLikeId: 32});
+    promise
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
+
+  function redirectToHashtagPage(tag) {
+    if (tag.startsWith("#")) {
+      navigate(`/hashtag/${tag.replaceAll("#", "")}`);
     }
   }
 
@@ -42,10 +59,29 @@ export default function PostPreview({
     );
   }
 
+  function like() {
+    if (!likePost) {
+      setLikePost(true);
+      return;
+    }
+    if (likePost) {
+      setLikePost(false);
+      return;
+    }
+  }
+
   return (
     <PostBox>
-      <LikeContainer>
+      <LikeContainer fontColor={likePost ? "#AC0000" : "white"}>
         <img alt={userName} src={userImage} />
+        <div onClick={like}>
+          {likePost ? (
+            <ion-icon name="heart"></ion-icon>
+          ) : (
+            <ion-icon name="heart-empty"></ion-icon>
+          )}
+        </div>
+        <p>0 likes</p>
       </LikeContainer>
       <PostOptions>
         <FaPen style={{ color: '#FFFFFF', fontSize: '16px' }} />
@@ -55,14 +91,14 @@ export default function PostPreview({
         <Link className="link" to={`/user/${userId}`} >
           <h2>{userName}</h2>
         </Link>
-        <ReactTagify 
-          mentionStyle={{fontWeight:500}}
-          tagStyle={{color: 'white',fontWeight:700}}
-          tagClicked={(tag)=> redirectToHashtagPage(tag) }>
-        <p>
-        {postContent !== null ? postContent:""}
-        </p>
-        </ReactTagify>      
+        <ReactTagify
+          mentionStyle={{ fontWeight: 500 }}
+          tagStyle={{ color: "white", fontWeight: 700 }}
+          tagClicked={(tag) => redirectToHashtagPage(tag)}
+        >
+          <p>{postContent !== null ? postContent : ""}</p>
+        </ReactTagify>
+
         <div className="linkpreview" onClick={openUrl}>
           <div className="linkdescription">
             <h3>{urlTitle}</h3>

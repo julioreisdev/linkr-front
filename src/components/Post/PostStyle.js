@@ -59,6 +59,13 @@ export const LikeContainer = styled.div`
     padding-left: 10px;
     margin-right: -5px;
   }
+
+  ion-icon {
+    color: ${(props) => props.fontColor};
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 export const LinkContainer = styled.div`
