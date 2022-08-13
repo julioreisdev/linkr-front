@@ -14,8 +14,9 @@ import TimelineTitle from "./timelineTitle.js";
 import {
   ContentMain,
   TotalContainer,
-} from "../../assets/css/style/timelineStyle.js";
+} from "./timelineStyle.js";
 import InputUsers from "../navBarr/InputUsers.js";
+
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();

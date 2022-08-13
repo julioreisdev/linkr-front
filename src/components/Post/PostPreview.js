@@ -1,4 +1,7 @@
-import { Link } from "react-router-dom";
+
+import styled from "styled-components";
+import { ReactTagify } from "react-tagify";
+import { Link,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PostBox, TagContainer, LikeContainer, LinkContainer } from "./PostStyle";
 
@@ -16,11 +19,17 @@ export default function PostPreview({
   function openUrl() {
     window.open(url, "_blank");
   }
-
+  const navigate = useNavigate()
   const [tagsPost, setTagsPosts] = useState([]);
   useEffect(() => {
     setTagsPosts(tags);
   }, []);
+
+  function redirectToHashtagPage(tag){
+    if(tag.startsWith("#")){
+      navigate(`/hashtag/${tag.replaceAll("#","")}`)
+    }
+  }
 
   function TagsLayout(props) {
     return (
@@ -38,15 +47,18 @@ export default function PostPreview({
         <img alt={userName} src={userImage} />
       </LikeContainer>
       <LinkContainer>
-        <Link className="link" to={`/user/${userId}`}>
-          <h2>{userName}</h2>
-        </Link>
-        <p>{postContent !== null ? postContent : ""}</p>
-        <TagContainer>
-          {tagsPost.map((t) => (
-            <TagsLayout t={t} />
-          ))}
-        </TagContainer>
+
+        <h2>{userName}</h2>
+        <ReactTagify 
+          mentionStyle={{fontWeight:500}}
+          tagStyle={{color: 'white',fontWeight:700}}
+          tagClicked={(tag)=> redirectToHashtagPage(tag) }>
+        <p>
+        {postContent !== null ? postContent:""}
+        </p>
+        </ReactTagify>
+       
+
         <div className="linkpreview" onClick={openUrl}>
           <div className="linkdescription">
             <h3>{urlTitle}</h3>
