@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { ReactTagify } from "react-tagify";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function PostPreview({
   userName,
   userImage,
   postContent,
+  tags,
   url,
   urlTitle,
   urlDescription,
@@ -14,6 +17,21 @@ export default function PostPreview({
     window.open(url, "_blank");
   }
 
+  const [tagsPost, setTagsPosts] = useState([]);
+  useEffect(() => {
+    setTagsPosts(tags);
+  }, []);
+
+  function TagsLayout(props) {
+    return (
+      <div>
+        <Link className="link" to={`/hashtag/${props.t}`}>
+          <span>#{props.t}</span>
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <PostBox>
       <LikeContainer>
@@ -21,9 +39,12 @@ export default function PostPreview({
       </LikeContainer>
       <LinkContainer>
         <h2>{userName}</h2>
-        <ReactTagify>
-          <p>{postContent !== null ? postContent : ""}</p>
-        </ReactTagify>
+        <p>{postContent !== null ? postContent : ""}</p>
+        <TagContainer>
+          {tagsPost.map((t) => (
+            <TagsLayout t={t} />
+          ))}
+        </TagContainer>
         <div className="linkpreview" onClick={openUrl}>
           <div className="linkdescription">
             <h3>{urlTitle}</h3>
@@ -36,6 +57,23 @@ export default function PostPreview({
     </PostBox>
   );
 }
+
+const TagContainer = styled.div`
+  font-weight: bold;
+  padding: 0.3rem 0.7rem;
+  width: 100%;
+  display: flex;
+
+  @media (min-width: 0) and (max-width: 620px) {
+    width: 300px;
+  }
+
+  span{
+    color: #fdfdfd;
+    text-decoration: none;
+    margin-right: 0.3rem;
+  }
+`;
 
 const PostBox = styled.div`
   width: 608px;
@@ -67,7 +105,7 @@ const LikeContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   img {
-    object-fit:cover;
+    object-fit: cover;
     width: 50px;
     height: 50px;
     border-radius: 26.5px;
