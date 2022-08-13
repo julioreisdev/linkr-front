@@ -1,6 +1,7 @@
 import { ReactTagify } from "react-tagify";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   PostBox, PostOptions,TagContainer, LikeContainer, LinkContainer
 } from "./PostStyle";
