@@ -38,10 +38,11 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setLoading(true);
-    if (userdata !== "") {
+    console.log(userdata.token);
+    if(userdata.token) {
       const config = {
         headers: {
-          Authorization: `Bearer ${userdata}`,
+          Authorization: `Bearer ${userdata.token}`,
         },
       };
       const promise = axios.get(

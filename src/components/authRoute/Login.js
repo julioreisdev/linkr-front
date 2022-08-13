@@ -31,13 +31,13 @@ export default function Login() {
 
     promise
       .then((re) => {
-        const data = re.data;
+        setUserdata(re.data);
+        const data = { ...re.data };
+        console.log(data.token);
         const dataString = JSON.stringify(data);
-
-        localStorage.setItem("@tokenJWT", JSON.stringify(re.data));
+        localStorage.setItem("@tokenJWT", JSON.stringify(data.token));
         localStorage.setItem("data", dataString);
         navigate("/timeline");
-        setUserdata(re.data);
       })
       .catch((error) => {
         if (error.response.status === 401) {
