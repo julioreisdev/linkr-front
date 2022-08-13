@@ -22,15 +22,17 @@ export default function HashtagPage(){
                     postList.map((post,index)=>{ 
                       console.log(post)
                       return(
-                    <PostPreview key={index}
-                      userName={post.userName}
-                      userImage={post.userImage}
-                      postContent={post.postContent}
-                      url={post.url}
-                      urlTitle={post.urlTitle}
-                      urlDescription={post.urlDescription}
-                      urlImage={post.urlImage}
-                    />)});
+                        <PostPreview
+                        key={index}
+                        userName={post.userName}
+                        userImage={post.userImage}
+                        postContent={post.postContent}
+                        tags={post.tags}
+                        url={post.url}
+                        urlTitle={post.urlTitle}
+                        urlDescription={post.urlDescription}
+                        urlImage={post.urlImage}
+                      />)});
     useEffect(()=>{
       const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}`)
       promise.then((re)=>{
