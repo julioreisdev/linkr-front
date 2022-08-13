@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { ReactTagify } from "react-tagify";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ import {
   PostBox, PostOptions,TagContainer, LikeContainer, LinkContainer
 } from "./PostStyle";
 import { FaPen, FaTrash } from "react-icons/fa";
+import UserContext from "../../contexts/UserContext";
 
 export default function PostPreview({
   userId,
@@ -25,6 +27,8 @@ export default function PostPreview({
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
   const [tagsPost, setTagsPosts] = useState([]);
+  const { userdata, setModalIsOpen } = useContext(UserContext);
+
   useEffect(() => {
     setTagsPosts(tags);
   }, []);
@@ -84,10 +88,17 @@ export default function PostPreview({
         </div>
         <p>0 likes</p>
       </LikeContainer>
-      <PostOptions>
-        <FaPen style={{ color: '#FFFFFF', fontSize: '16px' }} />
-        <FaTrash style={{ color: '#FFFFFF', fontSize: '14px' }} />
-      </PostOptions>
+      {userId === userdata.id ?
+        <PostOptions>
+          <FaPen style={{ color: '#FFFFFF', fontSize: '16px' }} />
+          <FaTrash
+            onClick={() => setModalIsOpen(true)}
+            style={{ color: '#FFFFFF', fontSize: '14px' }}
+          />
+        </PostOptions>  
+      :
+        <></>
+      }
       <LinkContainer>
         <Link className="link" to={`/user/${userId}`} >
           <h2>{userName}</h2>

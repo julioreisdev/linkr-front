@@ -11,6 +11,7 @@ import Post from "../Post/Post.js";
 import PostPreview from "../Post/PostPreview.js";
 import Hastags from "./Hastags.js";
 import TimelineTitle from "./timelineTitle.js";
+import PostModal from "../Post/PostModal.js";
 import {
   ContentMain,
   TotalContainer,
@@ -106,6 +107,7 @@ export default function TimelinePage() {
             <Hastags />
           </ContentMain>
         </div>
+        <PostModal />
       </TotalContainer>
     </>
   );
