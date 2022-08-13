@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import logo from "../../assets/images/linkr_Logo.png";
@@ -13,7 +13,9 @@ import {
   NavBarrStyled,
   LogoStyled,
 } from "../../assets/css/style/navBarrStyle.js";
-import InputUsers from "./InputUsers";
+import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
+import axios from "axios";
 
 function toggleDropDown(Status, Setstatus) {
   if (Status.dropDown === "able") {
@@ -29,7 +31,28 @@ function logout(navigate) {
 
 export default function NavBarr({ closeDropDown }) {
   const { Status, Setstatus } = useContext(elementStatusContext);
+  const { searchPeople, setSearchPeople, userImg, setUserImg } =
+    useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const api = `${process.env.REACT_APP_URL_API}/user`;
+    const promise = axios.get(api, config);
+
+    promise
+      .then((res) => {
+        setUserImg(res.data.image);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <NavBarrStyled
@@ -66,10 +89,7 @@ export default function NavBarr({ closeDropDown }) {
         </DropDown>
 
         <UserSection onClick={(e) => toggleDropDown(Status, Setstatus, e)}>
-          <img
-            src="https://rollingstone.uol.com.br/media/uploads/deadpool.jpg"
-            alt="imagem do usuário"
-          />
+          <img src={userImg} alt="imagem do usuário" />
         </UserSection>
       </Menu>
     </NavBarrStyled>

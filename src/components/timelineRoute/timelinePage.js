@@ -34,19 +34,19 @@ export default function TimelinePage() {
   } = useContext(UserContext);
   const navigate = useNavigate();
 
-    useEffect(() => {
-      setLoading(true);
-      if(userdata !== "") {
-        const config = {
-          headers: {
-              Authorization: `Bearer ${userdata}`
-          }
-        };
-        
-        const promise = axios.get(
-            `${process.env.REACT_APP_URL_API}/posts`,
-            config
-        );
+
+  useEffect(() => {
+    setLoading(true);
+    if (userdata !== "") {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userdata}`,
+        },
+      };
+      const promise = axios.get(
+        `${process.env.REACT_APP_URL_API}/posts`,
+        config
+      );
 
       promise.then((re) => {
         setPostList(re.data);
@@ -81,22 +81,22 @@ export default function TimelinePage() {
               <Post />
               {loading ? (
                 <Loaderspinner />
+              ) : postList.length === 0 ? (
+                <h1> There are no posts yet </h1>
               ) : (
-                        postList.length === 0 ?
-                          <h1> There are no posts yet </h1>
-                          :
-                  postList.map((post, index) => (
-                    <PostPreview
-                      key={index}
-                      userName={post.userName}
-                      userImage={post.userImage}
-                      postContent={post.postContent}
-                      url={post.url}
-                      urlTitle={post.urlTitle}
-                      urlDescription={post.urlDescription}
-                      urlImage={post.urlImage}
-                    />
-                  ))
+                postList.map((post, index) => (
+                  <PostPreview
+                    key={index}
+                    userName={post.userName}
+                    userImage={post.userImage}
+                    postContent={post.postContent}
+                    tags={post.tags}
+                    url={post.url}
+                    urlTitle={post.urlTitle}
+                    urlDescription={post.urlDescription}
+                    urlImage={post.urlImage}
+                  />
+                ))
               )}
             </PostContainer>
             <Hastags />

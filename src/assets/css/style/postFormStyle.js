@@ -41,6 +41,7 @@ export const PostContainer = styled.div`
     font-size: 1.1rem;
 
     img {
+      object-fit:cover;
       width: 50px;
       height: 50px;
       border-radius: 50%;

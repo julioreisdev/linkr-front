@@ -9,8 +9,31 @@ import UserContext from "../../contexts/UserContext.js";
 export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
+  const [phrase , setPhrase] = useState("")
   const [promiseFinished, setPromiseFinished] = useState(false);
-  const { setPostLoader } = useContext(UserContext);
+  const [tags,setTags] = useState([])
+
+  function setHashtagsAndContent (e){
+    const contentPhrase = e.target.value
+    const hashtags = contentPhrase.replaceAll("\n"," ")
+                                  .split(" ")
+                                  .map((word) => {
+                                    if (word.startsWith("#") && word.length>1) {
+                                      return word.slice(1,word.length);
+                                    }
+                                  }).filter((tag)=> {if(tag && !tag.includes("#")){return tag}});
+    // se tiver tempo transaforma essa logica em regex
+    const tags = hashtags.filter((tag,i)=> {if(hashtags.indexOf(tag)===i){return tag}})
+    setPhrase(contentPhrase)
+    console.log(contentPhrase.replaceAll("#",""))
+    console.log(tags)
+    setTags(tags)
+    setContent(contentPhrase.replaceAll("#",""))
+  }
+
+  const { setPostLoader, userImg } = useContext(UserContext);
+
+
 
   function submit(e) {
     e.preventDefault();
@@ -19,11 +42,12 @@ export default function Post() {
       alert("O link é obrigatório!");
       return;
     }
-
     const body = {
       url: link,
       content,
+      tags
     };
+    
     const token = JSON.parse(localStorage.getItem("@tokenJWT"));
     const config = {
       headers: {
@@ -38,6 +62,7 @@ export default function Post() {
         setPromiseFinished(false);
         setPostLoader(true);
         setLink("");
+        setPhrase("")
         setContent("");
       })
       .catch((err) => {
@@ -52,10 +77,7 @@ export default function Post() {
     <Container>
       <PostContainer>
         <div>
-          <img
-            src="https://images.unsplash.com/photo-1618614944895-fc409a83ad80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-            alt="Profile"
-          />
+          <img src={userImg} alt="Profile" />
           <p>{`What are you going to share today?`}</p>
         </div>
         <form onSubmit={(e) => submit(e)}>
@@ -71,8 +93,8 @@ export default function Post() {
             type="text"
             id="content"
             placeholder="Awesome article about #javascript"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={phrase}
+            onChange={(e) => setHashtagsAndContent (e)}
           />
           {promiseFinished ? (
             <button>Publishing</button>
