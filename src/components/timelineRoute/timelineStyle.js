@@ -10,7 +10,7 @@ export const ContentMain= styled.main`
 `
 
 export const TotalContainer = styled.section`
-    width: 100%;
+    width: 100vw;
     min-height:100vh;
     height: 100%;
     padding: 72px 1rem 1rem 1rem;

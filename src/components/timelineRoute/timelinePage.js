@@ -14,7 +14,7 @@ import TimelineTitle from "./timelineTitle.js";
 import {
   ContentMain,
   TotalContainer,
-} from "../../assets/css/style/timelineStyle.js";
+} from "./timelineStyle.js";
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
