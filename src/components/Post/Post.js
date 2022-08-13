@@ -9,8 +9,8 @@ import UserContext from "../../contexts/UserContext.js";
 export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
+  const [phrase , setPhrase] = useState("")
   const [promiseFinished, setPromiseFinished] = useState(false);
-<<<<<<< HEAD
   const [tags,setTags] = useState([])
 
   function setHashtagsAndContent (e){
@@ -24,16 +24,15 @@ export default function Post() {
                                   }).filter((tag)=> {if(tag && !tag.includes("#")){return tag}});
     // se tiver tempo transaforma essa logica em regex
     const tags = hashtags.filter((tag,i)=> {if(hashtags.indexOf(tag)===i){return tag}})
-    console.log(contentPhrase)
+    setPhrase(contentPhrase)
+    console.log(contentPhrase.replaceAll("#",""))
     console.log(tags)
     setTags(tags)
-    setContent(contentPhrase)
+    setContent(contentPhrase.replaceAll("#",""))
   }
 
-  const { setPostLoader } = useContext(UserContext);
-=======
   const { setPostLoader, userImg } = useContext(UserContext);
->>>>>>> 810c1cf9f6060f8bf25167b262239143915a1214
+
 
 
   function submit(e) {
@@ -63,6 +62,7 @@ export default function Post() {
         setPromiseFinished(false);
         setPostLoader(true);
         setLink("");
+        setPhrase("")
         setContent("");
       })
       .catch((err) => {
@@ -93,7 +93,7 @@ export default function Post() {
             type="text"
             id="content"
             placeholder="Awesome article about #javascript"
-            value={content}
+            value={phrase}
             onChange={(e) => setHashtagsAndContent (e)}
           />
           {promiseFinished ? (
