@@ -7,6 +7,8 @@ import {
 import axios from "axios";
 import { FaPen, FaTrash } from "react-icons/fa";
 import UserContext from "../../contexts/UserContext";
+
+import { ChooseConfig } from "../../assets/functions/chooseToken";
 export default function PostPreview({
   userId,
   postId,
@@ -25,11 +27,12 @@ export default function PostPreview({
   const [totalLikes,setTotalLikes] = useState([]);
   const [tagsPost, setTagsPosts] = useState([]);
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${userdata.token}`,
-    },
-  };
+  const token = localStorage.getItem("@tokenJWT").replaceAll('"', "")
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
   
 
@@ -50,27 +53,13 @@ export default function PostPreview({
             setLikePost(true)
           }
         })
-        console.log(re.data)
+        
       })
       .catch((error)=>{
         alert("Não foi possível ver as curtidas desse post.\nVerifique a conexão!")
       })
       ;
   }, [likePost]);
-  // useEffect(() => {
-  //   const api = `${process.env.REACT_APP_URL_API}/likes`;
-  //   const body = {
-  //     postLikeId: "oias",
-  //   };
-  //   const promise = axios.get(api, {postLikeId: 32});
-  //   promise
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.response.data);
-  //     });
-  // }, []);
   
   function openUrl() {
     window.open(url, "_blank");
@@ -84,10 +73,11 @@ export default function PostPreview({
 
   function like() {
     if (!likePost) {
-      
       const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
       const body = {userId:userdata.userId}
       const promise = axios.post(api,body,config)
+
+      console.log(body)
       promise.then((re)=>{
         setLikePost(true);
         console.log("liked "+ postId)
