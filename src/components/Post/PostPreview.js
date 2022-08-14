@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { PostBox, TagContainer, LikeContainer, LinkContainer } from "./PostStyle";
 
 export default function PostPreview({
-  userId,
+  postId,
   userName,
   userImage,
   postContent,
@@ -29,16 +29,6 @@ export default function PostPreview({
     if(tag.startsWith("#")){
       navigate(`/hashtag/${tag.replaceAll("#","")}`)
     }
-  }
-
-  function TagsLayout(props) {
-    return (
-      <div>
-        <Link className="link" to={`/hashtag/${props.t}`}>
-          <span>#{props.t}</span>
-        </Link>
-      </div>
-    );
   }
 
   return (

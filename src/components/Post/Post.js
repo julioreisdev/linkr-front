@@ -10,7 +10,7 @@ export default function Post() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [promiseFinished, setPromiseFinished] = useState(false);
-  const [tags,setTags] = useState([])
+  const [tags,setTags] = useState([]);
 
   function setHashtagsAndContent (e){
     const contentPhrase = e.target.value
