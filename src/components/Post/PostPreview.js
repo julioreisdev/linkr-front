@@ -1,14 +1,13 @@
-import styled from "styled-components";
+import { useContext } from "react";
 import { ReactTagify } from "react-tagify";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  PostBox,
-  TagContainer,
-  LikeContainer,
-  LinkContainer,
-} from "./PostStyle";
 import axios from "axios";
+import {
+  PostBox, PostOptions,TagContainer, LikeContainer, LinkContainer
+} from "./PostStyle";
+import { FaPen, FaTrash } from "react-icons/fa";
+import UserContext from "../../contexts/UserContext";
 
 export default function PostPreview({
   userId,
@@ -28,6 +27,8 @@ export default function PostPreview({
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
   const [tagsPost, setTagsPosts] = useState([]);
+  const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
+
   useEffect(() => {
     setTagsPosts(tags);
   }, []);
@@ -74,6 +75,11 @@ export default function PostPreview({
     }
   }
 
+  function deletePost(postId) {
+    setPostData(postId);
+    setModalIsOpen(true);
+  }
+
   return (
     <PostBox>
       <LikeContainer fontColor={likePost ? "#AC0000" : "white"}>
@@ -87,8 +93,21 @@ export default function PostPreview({
         </div>
         <p>0 likes</p>
       </LikeContainer>
+      {userId === userdata.id ?
+        <PostOptions>
+          <FaPen style={{ color: '#FFFFFF', fontSize: '16px' }} />
+          <FaTrash
+            onClick={() => deletePost(postId)}
+            style={{ color: '#FFFFFF', fontSize: '14px' }}
+          />
+        </PostOptions>  
+      :
+        <></>
+      }
       <LinkContainer>
-        <h2>{userName}</h2>
+        <Link className="link" to={`/user/${userId}`} >
+          <h2>{userName}</h2>
+        </Link>
         <ReactTagify
           mentionStyle={{ fontWeight: 500 }}
           tagStyle={{ color: "white", fontWeight: 700 }}

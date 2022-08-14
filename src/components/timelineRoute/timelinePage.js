@@ -11,6 +11,7 @@ import Post from "../Post/Post.js";
 import PostPreview from "../Post/PostPreview.js";
 import Hastags from "./Hastags.js";
 import TimelineTitle from "./timelineTitle.js";
+import PostModal from "../Post/PostModal.js";
 import {
   ContentMain,
   TotalContainer,
@@ -38,10 +39,11 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setLoading(true);
-    if (userdata !== "") {
+    console.log(userdata.token);
+    if(userdata.token) {
       const config = {
         headers: {
-          Authorization: `Bearer ${userdata}`,
+          Authorization: `Bearer ${userdata.token}`,
         },
       };
       const promise = axios.get(
@@ -105,6 +107,7 @@ export default function TimelinePage() {
             <Hastags />
           </ContentMain>
         </div>
+        <PostModal />
       </TotalContainer>
     </>
   );
