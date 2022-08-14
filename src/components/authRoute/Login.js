@@ -9,7 +9,7 @@ import GlobalStyle from "../../assets/css/cssReset/globalStyled";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
   const { setUserdata } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -22,21 +22,20 @@ export default function Login() {
 
   function login(e) {
     e.preventDefault();
-    setLoading(true);
-  }
+    setLoginLoading(true);
 
-  if (loading) {
     const body = { email, password };
     const promise = axios.post(`${process.env.REACT_APP_URL_API}/signin`, body);
 
     promise
       .then((re) => {
         setUserdata(re.data);
+        
         const data = { ...re.data };
-        console.log(data.token);
         const dataString = JSON.stringify(data);
         localStorage.setItem("@tokenJWT", JSON.stringify(data.token));
         localStorage.setItem("data", dataString);
+
         navigate("/timeline");
       })
       .catch((error) => {
@@ -45,9 +44,8 @@ export default function Login() {
         } else {
           alert("Não foi possível efetuar o login");
         }
+        setLoginLoading(false);
       });
-
-      setLoading(false);
   }
 
   return (
@@ -61,30 +59,28 @@ export default function Login() {
         <Form>
           <form onSubmit={login}>
             <input
-              className={loading ? "pale" : ""}
+              className={loginLoading ? "pale" : ""}
               type="email"
-              id={loading ? null : "email"}
+              id={loginLoading ? null : "email"}
               placeholder="e-mail"
               value={email}
-              onChange={loading ? null : (e) => setEmail(e.target.value)}
+              onChange={loginLoading ? null : (e) => setEmail(e.target.value)}
               required
             />
             <input
-              className={loading ? "pale" : ""}
+              className={loginLoading ? "pale" : ""}
               type="password"
-              id={loading ? null : "password"}
+              id={loginLoading ? null : "password"}
               placeholder="Senha"
               value={password}
-              onChange={loading ? null : (e) => setPassword(e.target.value)}
+              onChange={loginLoading ? null : (e) => setPassword(e.target.value)}
               required
             />
-            {loading ? (
-              <div className="pale">
-                <Loaderspinner />
-              </div>
-            ) : (
+            {loginLoading ? 
+              <Loaderspinner />
+             : 
               <button type="submit">Log In</button>
-            )}
+            }
           </form>
           <LinkStyled to={"/sign-up"}>
             <p>first time? Create an account!</p>

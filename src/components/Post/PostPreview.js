@@ -27,7 +27,7 @@ export default function PostPreview({
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
   const [tagsPost, setTagsPosts] = useState([]);
-  const { userdata, setModalIsOpen } = useContext(UserContext);
+  const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
 
   useEffect(() => {
     setTagsPosts(tags);
@@ -75,6 +75,11 @@ export default function PostPreview({
     }
   }
 
+  function deletePost(postId) {
+    setPostData(postId);
+    setModalIsOpen(true);
+  }
+
   return (
     <PostBox>
       <LikeContainer fontColor={likePost ? "#AC0000" : "white"}>
@@ -92,7 +97,7 @@ export default function PostPreview({
         <PostOptions>
           <FaPen style={{ color: '#FFFFFF', fontSize: '16px' }} />
           <FaTrash
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => deletePost(postId)}
             style={{ color: '#FFFFFF', fontSize: '14px' }}
           />
         </PostOptions>  

@@ -1,12 +1,20 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
+import axios from "axios";
 import Modal from "react-modal";
+import { Loaderspinner } from "../Loaderspinner";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 export default function PostModal() {
-    const { modalIsOpen, setModalIsOpen } = useContext(UserContext);
-    let subtitle;
-    
+    const {
+        userdata,
+        postData,
+        modalIsOpen,
+        setModalIsOpen,
+        setPostLoader
+    } = useContext(UserContext);
+    const [ loading, setLoading ] = useState(false);
+
     const customStyles = {
         content: {
             height: '222px',
@@ -19,16 +27,38 @@ export default function PostModal() {
             backgroundColor: '#333333',
             transform: 'translate(-50%, -50%)',
         },
-      };
+    };
     
-    function afterOpenModal() {
-        subtitle.style.color = '#f00';
+    Modal.setAppElement(document.getElementById('root'));
+
+    function toAcceptModal() {
+        setLoading(true);
+
+        const config = {
+            headers: {
+              Authorization: `Bearer ${userdata.token}`,
+            },
+          };
+
+        const promise = axios.delete(
+            `${process.env.REACT_APP_URL_API}/posts/${postData}`,
+            config
+        );
+
+        promise.then(() => {
+            setLoading(false);
+            setModalIsOpen(false);
+            setPostLoader(true);
+        }).catch(() => {
+            setLoading(false);
+            setModalIsOpen(false);
+            alert("could not delete");
+        });
     }
 
     return(
         <Modal
             isOpen={modalIsOpen}
-            onAfterOpen={afterOpenModal}
             onRequestClose={() => setModalIsOpen(false)}
             style={customStyles}
             contentLabel="Example Modal"
@@ -37,20 +67,24 @@ export default function PostModal() {
                 <p>
                     Are you sure you want to delete this post?
                 </p>
-                <div className="buttons">
-                    <button 
-                        className="cancel"
-                        onClick={() => setModalIsOpen(false)}
-                    >
-                        No, go back
-                    </button>
-                    <button 
-                        className="accept"
-                        onClick={() => setModalIsOpen(false)}
-                    >
-                        Yes, delete it
-                    </button>
-                </div>
+                { loading ?
+                    <Loaderspinner />
+                :
+                    <div className="buttons">
+                        <button 
+                            className="cancel"
+                            onClick={() => setModalIsOpen(false)}
+                        >
+                            No, go back
+                        </button>
+                        <button 
+                            className="accept"
+                            onClick={toAcceptModal}
+                        >
+                            Yes, delete it
+                        </button>
+                    </div>
+                }
             </ModalContent>
         </Modal>
     );
