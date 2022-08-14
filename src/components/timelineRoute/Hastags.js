@@ -14,7 +14,7 @@ function TagsBox ({hastagsData,loading}){
 }
 
 export default function Hastags(){
-    const{postLoader}=useContext(UserContext)
+    const{postLoader}=useContext(UserContext);
     const [HastagsData,SetHastagsData] = useState([]);
     const [loading, setLoading] = useState(true);
     
@@ -25,12 +25,12 @@ export default function Hastags(){
 
         promise
             .then((re)=>{
-                SetHastagsData([...re.data])
-                setLoading(false)
+                SetHastagsData([...re.data]);
+                setLoading(false);
             }
             )
             .catch((error)=>{
-                console.log(error)
+                console.log(error);
                
             });
     },[postLoader]);

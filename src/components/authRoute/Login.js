@@ -29,13 +29,12 @@ export default function Login() {
 
     promise
       .then((re) => {
-        setUserdata(re.data);
         
         const data = { ...re.data };
-        const dataString = JSON.stringify(data);
+        setUserdata(data);
+        const dataString = JSON.stringify(data.token);
         localStorage.setItem("@tokenJWT", JSON.stringify(data.token));
         localStorage.setItem("data", dataString);
-
         navigate("/timeline");
       })
       .catch((error) => {
