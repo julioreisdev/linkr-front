@@ -31,6 +31,7 @@ export const PostBox = styled.div`
   align-items: flex-start;
   justify-content: space-evenly;
   font-family: "Lato", sans-serif;
+  position: relative;
   @media (max-width: 620px) {
     width: 100%;
     border-radius: 0px;
@@ -187,3 +188,15 @@ export const LinkContainer = styled.div`
     }
   }
 `;
+
+export const PostOptions = styled.div`
+  width: 40px;
+  height: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 19px;
+  right: 23px;
+`

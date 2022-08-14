@@ -18,6 +18,8 @@ export default function App() {
   const [postLoader, setPostLoader] = useState(false);
   const [Status, Setstatus] = useState({ dropDown: "disable" });
   const [searchPeople, setSearchPeople] = useState("");
+  const [ postData, setPostData ] = useState(null);
+  const [ modalIsOpen, setModalIsOpen ] = useState(false);
 
   return (
     <UserContext.Provider
@@ -32,6 +34,10 @@ export default function App() {
         setPostLoader,
         searchPeople,
         setSearchPeople,
+        postData,
+        setPostData,
+        modalIsOpen,
+        setModalIsOpen
       }}
     >
       <elementStatusContext.Provider value={{ Status, Setstatus }}>
