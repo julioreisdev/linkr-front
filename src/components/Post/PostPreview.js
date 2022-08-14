@@ -1,11 +1,15 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect} from "react";
 import { ReactTagify } from "react-tagify";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  PostBox, PostOptions,TagContainer, LikeContainer, LinkContainer
+  PostBox,
+  PostOptions,
+  TagContainer,
+  LikeContainer,
+  LinkContainer
 } from "./PostStyle";
+import Input from "./Input";
 import { FaPen, FaTrash } from "react-icons/fa";
 import UserContext from "../../contexts/UserContext";
 
@@ -27,6 +31,7 @@ export default function PostPreview({
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
   const [tagsPost, setTagsPosts] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
   const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
 
   useEffect(() => {
@@ -75,6 +80,11 @@ export default function PostPreview({
     }
   }
 
+  function editPost(postId) {
+    setPostData(postId)
+    setIsEdit(!isEdit);
+  }
+
   function deletePost(postId) {
     setPostData(postId);
     setModalIsOpen(true);
@@ -95,7 +105,10 @@ export default function PostPreview({
       </LikeContainer>
       {userId === userdata.id ?
         <PostOptions>
-          <FaPen style={{ color: '#FFFFFF', fontSize: '16px' }} />
+          <FaPen
+            onClick={() => editPost(postId)}
+            style={{ color: '#FFFFFF', fontSize: '16px' }}
+          />
           <FaTrash
             onClick={() => deletePost(postId)}
             style={{ color: '#FFFFFF', fontSize: '14px' }}
@@ -108,13 +121,17 @@ export default function PostPreview({
         <Link className="link" to={`/user/${userId}`} >
           <h2>{userName}</h2>
         </Link>
-        <ReactTagify
-          mentionStyle={{ fontWeight: 500 }}
-          tagStyle={{ color: "white", fontWeight: 700 }}
-          tagClicked={(tag) => redirectToHashtagPage(tag)}
-        >
-          <p>{postContent !== null ? postContent : ""}</p>
-        </ReactTagify>
+        {isEdit ?
+          <Input content={postContent} setIsEdit={setIsEdit}/>
+          :
+          <ReactTagify
+            mentionStyle={{ fontWeight: 500 }}
+            tagStyle={{ color: "white", fontWeight: 700 }}
+            tagClicked={(tag) => redirectToHashtagPage(tag)}
+          >
+            <p>{postContent !== null ? postContent : ""}</p>
+          </ReactTagify>
+        }
 
         <div className="linkpreview" onClick={openUrl}>
           <div className="linkdescription">
