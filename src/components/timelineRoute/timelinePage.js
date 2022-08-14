@@ -41,7 +41,7 @@ export default function TimelinePage() {
     if (userdata !== "") {
       const config = {
         headers: {
-          Authorization: `Bearer ${userdata}`,
+          Authorization: `Bearer ${userdata.token}`,
         },
       };
       const promise = axios.get(
@@ -85,7 +85,7 @@ export default function TimelinePage() {
               ) : postList.length === 0 ? (
                 <h1> There are no posts yet </h1>
               ) : (
-                postList.map((post, index) => (
+                postList.map((post, index) =>(
                   <PostPreview
                     key={index}
                     postId={post.postId}

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ReactTagify } from "react-tagify";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   PostBox,
   TagContainer,
@@ -9,6 +9,7 @@ import {
   LinkContainer,
 } from "./PostStyle";
 import axios from "axios";
+import UserContext from "../../contexts/UserContext";
 
 export default function PostPreview({
   userId,
@@ -22,30 +23,59 @@ export default function PostPreview({
   urlDescription,
   urlImage,
 }) {
-  function openUrl() {
-    window.open(url, "_blank");
-  }
+  const {userdata} = useContext(UserContext)
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
+  
+  const [totalLikes,setTotalLikes] = useState([]);
   const [tagsPost, setTagsPosts] = useState([]);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userdata.token}`,
+    },
+  };
+
   useEffect(() => {
     setTagsPosts(tags);
   }, []);
-
   useEffect(() => {
-    const api = `${process.env.REACT_APP_URL_API}/likes`;
-    const body = {
-      postLikeId: "oias",
-    };
-    const promise = axios.get(api, {postLikeId: 32});
-    promise
-      .then((res) => {
-        console.log(res.data);
+    const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
+      const promise = axios.get(api)
+      promise.then((re)=>{
+        const likes = re.data
+        setTotalLikes(re.data)
+        likes.map((like)=>{
+          const isCurrentPost = (like.postId=== postId)
+          const userLiked =(like.userId === userdata.userId)
+          if(isCurrentPost && userLiked){
+            setLikePost(true)
+          }
+        })
+        console.log(re.data)
       })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, []);
+      .catch((error)=>{
+        alert("Não foi possível ver as curtidas desse post.\nVerifique a conexão!")
+      })
+      ;
+  }, [likePost]);
+  // useEffect(() => {
+  //   const api = `${process.env.REACT_APP_URL_API}/likes`;
+  //   const body = {
+  //     postLikeId: "oias",
+  //   };
+  //   const promise = axios.get(api, {postLikeId: 32});
+  //   promise
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response.data);
+  //     });
+  // }, []);
+  
+  function openUrl() {
+    window.open(url, "_blank");
+  }
 
   function redirectToHashtagPage(tag) {
     if (tag.startsWith("#")) {
@@ -55,11 +85,32 @@ export default function PostPreview({
 
   function like() {
     if (!likePost) {
-      setLikePost(true);
+      
+      const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
+      const body = {userId:userdata.userId}
+      const promise = axios.post(api,body,config)
+      promise.then((re)=>{
+        setLikePost(true);
+        console.log("liked "+ postId)
+      })
+      .catch((error)=>{
+        alert("Não foi possível curtir esse post.\nVerifique a conexão!")
+        setLikePost(false);
+      })
+      
       return;
     }
     if (likePost) {
       setLikePost(false);
+      const api = `${process.env.REACT_APP_URL_API}/like/${postId}/${userdata.userId}`;
+      const promise = axios.delete(api)
+      promise.then((re)=>{
+        console.log(api)
+      })
+      .catch((error)=>{
+        alert("Não foi possível descurtir esse post.\nVerifique a conexão!")
+        setLikePost(true);
+      })
       return;
     }
   }
@@ -74,7 +125,7 @@ export default function PostPreview({
             <ion-icon name="heart-empty"></ion-icon>
           )}
         </div>
-        <p>0 likes</p>
+        <p>{totalLikes.length ? `${totalLikes.length} likes` :"" }</p>
       </LikeContainer>
       <LinkContainer>
         <h2>{userName}</h2>
