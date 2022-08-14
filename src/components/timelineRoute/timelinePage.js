@@ -89,6 +89,7 @@ export default function TimelinePage() {
                   <PostPreview
                     key={index}
                     postId={post.postId}
+                    userId={post.userId}
                     userName={post.userName}
                     userImage={post.userImage}
                     postContent={post.postContent}
