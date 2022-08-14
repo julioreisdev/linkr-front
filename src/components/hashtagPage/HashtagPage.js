@@ -1,15 +1,15 @@
-import { useContext, useEffect,useState   } from "react"
-import { useParams } from "react-router-dom"
-import NavBarr from "../navBarr/navBarr.js"
-import TimelineTitle from "../timelineRoute/timelineTitle.js"
-import elementStatusContext from "../../context/ElementsStatus.js"
-import GlobalStyle from "../../assets/css/cssReset/globalStyled.js"
-import closeDropDown from "../../assets/functions/closeDropdown.js"
-import {ContentMain,TotalContainer} from "../timelineRoute/timelineStyle.js"
-import { Loaderspinner } from "../Loaderspinner.js"
-import PostPreview from "../Post/PostPreview.js"
-import styled from "styled-components"
-import axios from "axios"
+import { useContext, useEffect,useState   } from "react";
+import { useParams } from "react-router-dom";
+import NavBarr from "../navBarr/navBarr.js";
+import TimelineTitle from "../timelineRoute/timelineTitle.js";
+import elementStatusContext from "../../context/ElementsStatus.js";
+import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
+import closeDropDown from "../../assets/functions/closeDropdown.js";
+import {ContentMain,TotalContainer} from "../timelineRoute/timelineStyle.js";
+import { Loaderspinner } from "../Loaderspinner.js";
+import PostPreview from "../Post/PostPreview.js";
+import styled from "styled-components";
+import axios from "axios";
 import Hastags from "../timelineRoute/Hastags.js";
 
 
@@ -19,30 +19,30 @@ export default function HashtagPage(){
     const [loading, setLoading] = useState(true);
     const {hashtag}=useParams();
     const isLoad = loading? <Loaderspinner/>:
-                    postList.map((post,index)=>{ 
-                      console.log(post)
-                      return(
+                    postList.map((post,index)=>(
                         <PostPreview
-                        key={index}
-                        userName={post.userName}
-                        userImage={post.userImage}
-                        postContent={post.postContent}
-                        tags={post.tags}
-                        url={post.url}
-                        urlTitle={post.urlTitle}
-                        urlDescription={post.urlDescription}
-                        urlImage={post.urlImage}
-                      />)});
+                          key={index}
+                          postId={post.postId}
+                          userId={post.userId}
+                          userName={post.userName}
+                          userImage={post.userImage}
+                          postContent={post.postContent}
+                          tags={post.tags}
+                          url={post.url}
+                          urlTitle={post.urlTitle}
+                          urlDescription={post.urlDescription}
+                          urlImage={post.urlImage}
+                        />
+                  ));
     useEffect(()=>{
       const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}`)
       promise.then((re)=>{
-        console.log([...re.data])
-        setPostList([...re.data])
-        setLoading(false)
+        console.log([...re.data]);
+        setPostList([...re.data]);
+        setLoading(false);
       }).catch(()=>
-        alert("não foi possível carregar os posts dessa hashtag"))
-    },[hashtag])
-
+        alert("não foi possível carregar os posts dessa hashtag"));
+    },[hashtag]);
     return(
         <>
             <GlobalStyle/>

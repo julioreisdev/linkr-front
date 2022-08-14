@@ -12,7 +12,6 @@ import {
 import Input from "./Input";
 import { FaPen, FaTrash } from "react-icons/fa";
 import UserContext from "../../contexts/UserContext";
-
 export default function PostPreview({
   userId,
   postId,
@@ -25,11 +24,10 @@ export default function PostPreview({
   urlDescription,
   urlImage,
 }) {
-  function openUrl() {
-    window.open(url, "_blank");
-  }
+  const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
+  const [totalLikes,setTotalLikes] = useState([]);
   const [tagsPost, setTagsPosts] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
@@ -37,21 +35,44 @@ export default function PostPreview({
   useEffect(() => {
     setTagsPosts(tags);
   }, []);
-
   useEffect(() => {
-    const api = `${process.env.REACT_APP_URL_API}/likes`;
-    const body = {
-      postLikeId: "oias",
-    };
-    const promise = axios.get(api, {postLikeId: 32});
-    promise
-      .then((res) => {
-        console.log(res.data);
+    const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
+      const promise = axios.get(api)
+      promise.then((re)=>{
+        const likes = re.data
+        setTotalLikes(re.data)
+        likes.map((like)=>{
+          const isCurrentPost = (like.postId=== postId)
+          const userLiked =(like.userId === userdata.userId)
+          if(isCurrentPost && userLiked){
+            setLikePost(true)
+          }
+        })
+        console.log(re.data)
       })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, []);
+      .catch((error)=>{
+        alert("Não foi possível ver as curtidas desse post.\nVerifique a conexão!")
+      })
+      ;
+  }, [likePost]);
+  // useEffect(() => {
+  //   const api = `${process.env.REACT_APP_URL_API}/likes`;
+  //   const body = {
+  //     postLikeId: "oias",
+  //   };
+  //   const promise = axios.get(api, {postLikeId: 32});
+  //   promise
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response.data);
+  //     });
+  // }, []);
+  
+  function openUrl() {
+    window.open(url, "_blank");
+  }
 
   function redirectToHashtagPage(tag) {
     if (tag.startsWith("#")) {
@@ -59,23 +80,34 @@ export default function PostPreview({
     }
   }
 
-  function TagsLayout(props) {
-    return (
-      <div>
-        <Link className="link" to={`/hashtag/${props.t}`}>
-          <span>#{props.t}</span>
-        </Link>
-      </div>
-    );
-  }
-
   function like() {
     if (!likePost) {
-      setLikePost(true);
+      
+      const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
+      const body = {userId:userdata.userId}
+      const promise = axios.post(api,body,config)
+      promise.then((re)=>{
+        setLikePost(true);
+        console.log("liked "+ postId)
+      })
+      .catch((error)=>{
+        alert("Não foi possível curtir esse post.\nVerifique a conexão!")
+        setLikePost(false);
+      })
+      
       return;
     }
     if (likePost) {
       setLikePost(false);
+      const api = `${process.env.REACT_APP_URL_API}/like/${postId}/${userdata.userId}`;
+      const promise = axios.delete(api)
+      promise.then((re)=>{
+        console.log(api)
+      })
+      .catch((error)=>{
+        alert("Não foi possível descurtir esse post.\nVerifique a conexão!")
+        setLikePost(true);
+      })
       return;
     }
   }
@@ -90,6 +122,7 @@ export default function PostPreview({
     setModalIsOpen(true);
   }
 
+
   return (
     <PostBox>
       <LikeContainer fontColor={likePost ? "#AC0000" : "white"}>
@@ -101,7 +134,7 @@ export default function PostPreview({
             <ion-icon name="heart-empty"></ion-icon>
           )}
         </div>
-        <p>0 likes</p>
+        <p>{totalLikes.length ? `${totalLikes.length} likes` :"" }</p>
       </LikeContainer>
       {userId === userdata.id ?
         <PostOptions>
