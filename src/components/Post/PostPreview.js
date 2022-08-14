@@ -24,7 +24,6 @@ export default function PostPreview({
   urlDescription,
   urlImage,
 }) {
-  const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(false);
   const [totalLikes,setTotalLikes] = useState([]);
@@ -82,7 +81,11 @@ export default function PostPreview({
 
   function like() {
     if (!likePost) {
-      
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userdata.token}`,
+        },
+      };
       const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
       const body = {userId:userdata.userId}
       const promise = axios.post(api,body,config)
