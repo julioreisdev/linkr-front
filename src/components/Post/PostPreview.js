@@ -33,13 +33,11 @@ export default function PostPreview({
 
   useEffect(() => {
     setTagsPosts(tags);
-  }, []);
-  useEffect(() => {
     const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
       const promise = axios.get(api)
       promise.then((re)=>{
-        const likes = re.data
-        setTotalLikes(re.data)
+        const likes = re.data;
+        setTotalLikes(re.data);
         likes.map((like)=>{
           const isCurrentPost = (like.postId=== postId)
           const userLiked =(like.userId === userdata.userId)
@@ -53,7 +51,7 @@ export default function PostPreview({
         alert("Não foi possível ver as curtidas desse post.\nVerifique a conexão!")
       })
       ;
-  }, [likePost]);
+  }, [totalLikes]);
   // useEffect(() => {
   //   const api = `${process.env.REACT_APP_URL_API}/likes`;
   //   const body = {
