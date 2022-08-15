@@ -31,9 +31,10 @@ export default function Login() {
       .then((re) => {
         
         const data = { ...re.data };
+        console.log(data);
         setUserdata(data);
-        const dataString = JSON.stringify(data.token);
-        localStorage.setItem("@tokenJWT", JSON.stringify(data.token));
+        const dataString = JSON.stringify(data);
+        localStorage.setItem("@tokenJWT", JSON.stringify(data));
         localStorage.setItem("data", dataString);
         navigate("/timeline");
       })

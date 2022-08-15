@@ -15,10 +15,8 @@ import PostModal from "../Post/PostModal.js";
 import {
   ContentMain,
   TotalContainer,
-  PostContainer
 } from "./timelineStyle.js";
 import InputUsers from "../navBarr/InputUsers.js";
-import { ChooseConfig } from "../../assets/functions/chooseToken.js";
 
 
 function closeDropDown(Status, Setstatus, e) {
@@ -37,47 +35,33 @@ export default function TimelinePage() {
     userdata, postLoader, setPostLoader
   } = useContext(UserContext);
   const navigate = useNavigate();
-  ChooseConfig()
+
 
   useEffect(() => {
-    console.log("entrei")
     setLoading(true);
+    console.log(userdata.token);
     if(userdata.token) {
       const config = {
         headers: {
           Authorization: `Bearer ${userdata.token}`,
         },
       };
-      console.log(config)
-      
       const promise = axios.get(
         `${process.env.REACT_APP_URL_API}/posts`,
         config
       );
-      
+
       promise.then((re) => {
         setPostList(re.data);
         setPostLoader(false);
         setLoading(false);
       });
     } else {
-      const token = localStorage.getItem("@tokenJWT").replaceAll('"', "")
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const promise = axios.get(
-        `${process.env.REACT_APP_URL_API}/posts`,
-        config
+      alert(
+        "An error occured while trying to fetch the posts, please refresh the page"
       );
-      
-      promise.then((re) => {
-        setPostList(re.data);
-        setPostLoader(false);
-        setLoading(false);
-      });      
+      localStorage.removeItem("data");
+      navigate("/");
     }
   }, [userdata, postLoader]);
 
@@ -129,4 +113,17 @@ export default function TimelinePage() {
   );
 }
 
-
+const PostContainer = styled.div`
+  width: 63%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  h1 {
+    font-size: 20px;
+  }
+  @media (max-width: 620px) {
+    width: 100% !important;
+  }
+`;

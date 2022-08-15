@@ -119,7 +119,7 @@ export default function PostPreview({
     setPostData(postId);
     setModalIsOpen(true);
   }
-
+  console.log(userdata.userId);
 
   return (
     <PostBox>
@@ -134,7 +134,7 @@ export default function PostPreview({
         </div>
         <p>{totalLikes.length ? `${totalLikes.length} likes` :"" }</p>
       </LikeContainer>
-      {userId === userdata.id ?
+      {userId === userdata.userId ?
         <PostOptions>
           <FaPen
             onClick={() => editPost(postId)}
