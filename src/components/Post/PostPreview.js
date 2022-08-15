@@ -93,20 +93,14 @@ export default function PostPreview({
         setLikePost(false);
       })
       
-      return;
-    }
-    if (likePost) {
+    }else {
       setLikePost(false);
       const api = `${process.env.REACT_APP_URL_API}/like/${postId}/${userdata.userId}`;
       const promise = axios.delete(api)
-      promise.then((re)=>{
-        console.log(api)
-      })
-      .catch((error)=>{
+      promise.catch((error)=>{
         alert("Não foi possível descurtir esse post.\nVerifique a conexão!")
         setLikePost(true);
       })
-      return;
     }
   }
 
@@ -119,7 +113,6 @@ export default function PostPreview({
     setPostData(postId);
     setModalIsOpen(true);
   }
-  console.log(userdata.userId);
 
   return (
     <PostBox>

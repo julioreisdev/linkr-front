@@ -21,7 +21,6 @@ export default function Post() {
                                       return word.slice(1,word.length);
                                     }
                                   }).filter((tag)=> {if(tag && !tag.includes("#")){return tag}});
-    // se tiver tempo transaforma essa logica em regex
     const tags = hashtags.filter((tag,i)=> {if(hashtags.indexOf(tag)===i){return tag}})
     setTags(tags)
     setContent(contentPhrase)
@@ -47,7 +46,7 @@ export default function Post() {
     const token = JSON.parse(localStorage.getItem("@tokenJWT"));
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.token}`,
       },
     };
     setPromiseFinished(true);

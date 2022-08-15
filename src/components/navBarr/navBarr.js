@@ -38,9 +38,10 @@ export default function NavBarr({ closeDropDown }) {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+    //console.log(token);
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.token}`,
       },
     };
     const api = `${process.env.REACT_APP_URL_API}/user`;
@@ -50,9 +51,6 @@ export default function NavBarr({ closeDropDown }) {
       .then((res) => {
         setUserImg(res.data.image);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }, []);
 
   return (
