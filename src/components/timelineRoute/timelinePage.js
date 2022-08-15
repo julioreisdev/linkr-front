@@ -39,7 +39,7 @@ export default function TimelinePage() {
 
   useEffect(() => {
     setLoading(true);
-    console.log(userdata.token);
+
     if(userdata.token) {
       const config = {
         headers: {

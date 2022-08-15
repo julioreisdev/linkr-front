@@ -12,6 +12,8 @@ import {
 import Input from "./Input";
 import { FaPen, FaTrash } from "react-icons/fa";
 import UserContext from "../../contexts/UserContext";
+
+import { ChooseConfig } from "../../assets/functions/chooseToken";
 export default function PostPreview({
   userId,
   postId,
@@ -28,18 +30,28 @@ export default function PostPreview({
   const [likePost, setLikePost] = useState(false);
   const [totalLikes,setTotalLikes] = useState([]);
   const [tagsPost, setTagsPosts] = useState([]);
+
+
+  const token = localStorage.getItem("@tokenJWT").replaceAll('"', "")
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+  
+
+
   const [isEdit, setIsEdit] = useState(false);
   const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
 
   useEffect(() => {
     setTagsPosts(tags);
-  }, []);
-  useEffect(() => {
     const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
       const promise = axios.get(api)
       promise.then((re)=>{
-        const likes = re.data
-        setTotalLikes(re.data)
+        const likes = re.data;
+        setTotalLikes(re.data);
         likes.map((like)=>{
           const isCurrentPost = (like.postId=== postId)
           const userLiked =(like.userId === userdata.userId)
@@ -47,27 +59,13 @@ export default function PostPreview({
             setLikePost(true)
           }
         })
-        console.log(re.data)
+        
       })
       .catch((error)=>{
         alert("Não foi possível ver as curtidas desse post.\nVerifique a conexão!")
       })
       ;
   }, [likePost]);
-  // useEffect(() => {
-  //   const api = `${process.env.REACT_APP_URL_API}/likes`;
-  //   const body = {
-  //     postLikeId: "oias",
-  //   };
-  //   const promise = axios.get(api, {postLikeId: 32});
-  //   promise
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.response.data);
-  //     });
-  // }, []);
   
   function openUrl() {
     window.open(url, "_blank");
@@ -81,14 +79,11 @@ export default function PostPreview({
 
   function like() {
     if (!likePost) {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userdata.token}`,
-        },
-      };
       const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
       const body = {userId:userdata.userId}
       const promise = axios.post(api,body,config)
+
+      console.log(body)
       promise.then((re)=>{
         setLikePost(true);
         console.log("liked "+ postId)
@@ -98,20 +93,14 @@ export default function PostPreview({
         setLikePost(false);
       })
       
-      return;
-    }
-    if (likePost) {
+    }else {
       setLikePost(false);
       const api = `${process.env.REACT_APP_URL_API}/like/${postId}/${userdata.userId}`;
       const promise = axios.delete(api)
-      promise.then((re)=>{
-        console.log(api)
-      })
-      .catch((error)=>{
+      promise.catch((error)=>{
         alert("Não foi possível descurtir esse post.\nVerifique a conexão!")
         setLikePost(true);
       })
-      return;
     }
   }
 
@@ -124,7 +113,6 @@ export default function PostPreview({
     setPostData(postId);
     setModalIsOpen(true);
   }
-
 
   return (
     <PostBox>
@@ -139,7 +127,7 @@ export default function PostPreview({
         </div>
         <p>{totalLikes.length ? `${totalLikes.length} likes` :"" }</p>
       </LikeContainer>
-      {userId === userdata.id ?
+      {userId === userdata.userId ?
         <PostOptions>
           <FaPen
             onClick={() => editPost(postId)}

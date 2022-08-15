@@ -28,12 +28,12 @@ export default function Login() {
     const promise = axios.post(`${process.env.REACT_APP_URL_API}/signin`, body);
 
     promise
-      .then((re) => {
-        
+      .then((re) => {  
         const data = { ...re.data };
+        
         setUserdata(data);
-        const dataString = JSON.stringify(data.token);
-        localStorage.setItem("@tokenJWT", JSON.stringify(data.token));
+        const dataString = JSON.stringify(data);
+        localStorage.setItem("@tokenJWT", JSON.stringify(data));
         localStorage.setItem("data", dataString);
         navigate("/timeline");
       })
