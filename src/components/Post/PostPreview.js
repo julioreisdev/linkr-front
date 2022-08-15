@@ -12,6 +12,8 @@ import {
 import Input from "./Input";
 import { FaPen, FaTrash } from "react-icons/fa";
 import UserContext from "../../contexts/UserContext";
+
+import { ChooseConfig } from "../../assets/functions/chooseToken";
 export default function PostPreview({
   userId,
   postId,
@@ -28,6 +30,18 @@ export default function PostPreview({
   const [likePost, setLikePost] = useState(false);
   const [totalLikes,setTotalLikes] = useState([]);
   const [tagsPost, setTagsPosts] = useState([]);
+
+
+  const token = localStorage.getItem("@tokenJWT").replaceAll('"', "")
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+  
+
+
   const [isEdit, setIsEdit] = useState(false);
   const { userdata, setPostData, setModalIsOpen } = useContext(UserContext);
 
@@ -45,27 +59,13 @@ export default function PostPreview({
             setLikePost(true)
           }
         })
-        console.log(re.data)
+        
       })
       .catch((error)=>{
         alert("Não foi possível ver as curtidas desse post.\nVerifique a conexão!")
       })
       ;
-  }, [totalLikes]);
-  // useEffect(() => {
-  //   const api = `${process.env.REACT_APP_URL_API}/likes`;
-  //   const body = {
-  //     postLikeId: "oias",
-  //   };
-  //   const promise = axios.get(api, {postLikeId: 32});
-  //   promise
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.response.data);
-  //     });
-  // }, []);
+  }, [likePost]);
   
   function openUrl() {
     window.open(url, "_blank");
@@ -79,14 +79,11 @@ export default function PostPreview({
 
   function like() {
     if (!likePost) {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userdata.token}`,
-        },
-      };
       const api = `${process.env.REACT_APP_URL_API}/like/${postId}`;
       const body = {userId:userdata.userId}
       const promise = axios.post(api,body,config)
+
+      console.log(body)
       promise.then((re)=>{
         setLikePost(true);
         console.log("liked "+ postId)

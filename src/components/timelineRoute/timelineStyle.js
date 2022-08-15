@@ -31,3 +31,18 @@ export const TotalContainer = styled.section`
  @media (min-width: 0) and (max-width: 700px) {
     padding: 72px 0 0 0;
   }`
+
+export const PostContainer = styled.div`
+width: 63%;
+height: auto;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+h1 {
+  font-size: 20px;
+}
+@media (max-width: 620px) {
+  width: 100% !important;
+}
+`;
