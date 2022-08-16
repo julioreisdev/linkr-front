@@ -10,7 +10,7 @@ export const TagContainer = styled.div`
     width: 300px;
   }
 
-  span{
+  span {
     color: #fdfdfd;
     text-decoration: none;
     margin-right: 0.3rem;
@@ -19,12 +19,12 @@ export const TagContainer = styled.div`
 
 export const PostBox = styled.div`
   width: 608px;
-  height: 276px;
-  margin-bottom: 16px;
+  min-height: 276px;
+  margin: 2rem 0 0 0;
   padding: 20px;
   box-sizing: border-box;
   border: none;
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
   background-color: #171717;
   display: flex;
   flex-direction: row;
@@ -60,8 +60,11 @@ export const LikeContainer = styled.div`
     margin-right: -5px;
   }
 
-  ion-icon {
+  div {
     color: ${(props) => props.fontColor};
+  }
+
+  ion-icon {
     font-size: 1.3rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -199,4 +202,70 @@ export const PostOptions = styled.div`
   position: absolute;
   top: 19px;
   right: 23px;
-`
+`;
+
+export const CommentIcon = styled.div`
+  margin-top: 0.8rem;
+  color: #ffffff !important;
+`;
+
+export const Comments = styled.div`
+  /* position: absolute; */
+  left: 0;
+  bottom: -4rem;
+  width: 608px;
+  padding: 1rem;
+  background-color: #1e1e1e;
+  margin-bottom: 1rem;
+  border-radius: 0 0 16px 16px;
+
+  @media (min-width: 0) and (max-width: 620px) {
+    width: 100%;
+    border-radius: 0;
+  }
+`;
+
+export const SendComment = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.8rem;
+  border-top: 1px solid #333;
+
+  form {
+    position: relative;
+    width: 90%;
+    input {
+      padding: 0.7rem 50px 0.7rem 0.5rem;
+      width: 100%;
+      border-radius: 8px;
+      background-color: #252525;
+      border: 1px solid #252525;
+      color: #ffffff;
+    }
+    button {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      padding: 0.5rem 0.7rem;
+      border-radius: 12px;
+      background-color: #252525;
+      border: 1px solid #252525;
+    }
+    ion-icon {
+      color: #fff;
+    }
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  @media (min-width: 0) and (max-width: 620px) {
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+`;
