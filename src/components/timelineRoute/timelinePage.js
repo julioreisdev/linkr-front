@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loaderspinner } from "../Loaderspinner.js";
+import useInterval from  "use-interval";
 import axios from "axios";
 import styled from "styled-components";
 import elementStatusContext from "../../context/ElementsStatus.js";
@@ -17,6 +18,8 @@ import {
   TotalContainer,
 } from "./timelineStyle.js";
 import InputUsers from "../navBarr/InputUsers.js";
+import { AiOutlineSync } from "react-icons/ai";
+import { IoMdAdd } from "react-icons/io";
 
 
 function closeDropDown(Status, Setstatus, e) {
@@ -29,6 +32,7 @@ function closeDropDown(Status, Setstatus, e) {
 
 export default function TimelinePage() {
   const [postList, setPostList] = useState([]);
+  const [ newPosts, setNewPosts ] = useState(0);
   const [loading, setLoading] = useState(false);
   const { Status, Setstatus } = useContext(elementStatusContext);
   const {
@@ -36,34 +40,64 @@ export default function TimelinePage() {
   } = useContext(UserContext);
   const navigate = useNavigate();
 
+  function getPosts() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userdata.token}`,
+      },
+    };
+    const promise = axios.get(
+      `${process.env.REACT_APP_URL_API}/posts`,
+      config
+    );
+
+    return promise;
+  }
 
   useEffect(() => {
     setLoading(true);
 
     if(userdata.token) {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userdata.token}`,
-        },
-      };
-      const promise = axios.get(
-        `${process.env.REACT_APP_URL_API}/posts`,
-        config
-      );
+      const promise = getPosts();
 
       promise.then((re) => {
         setPostList(re.data);
         setPostLoader(false);
         setLoading(false);
+        setNewPosts(0);
       });
     } else {
       alert(
         "An error occured while trying to fetch the posts, please refresh the page"
       );
+      setPostLoader(false);
       localStorage.removeItem("data");
       navigate("/");
     }
   }, [userdata, postLoader]);
+  
+  let interval = 15000;
+  useInterval(() => {
+    const promise = getPosts();
+    
+    promise.then(re => {
+      const posts = re.data;
+      let count = 0;
+      if(posts[0].postId !== postList[0].postId) {
+        posts.forEach((post, index) =>{
+          if(post.postId !== postList[index].postId){
+            count++;
+          }
+        });
+        setNewPosts(count);
+      }
+    }).catch(() => {
+      alert(
+        "An error occured while trying to fetch the posts, please refresh the page"
+      );
+      interval = null;  
+    });
+  }, interval);
 
   return (
     <>
@@ -82,6 +116,18 @@ export default function TimelinePage() {
           <ContentMain>
             <PostContainer>
               <Post />
+              {newPosts > 0 ?
+                <NewPostsBox onClick={() => setPostLoader(true)}>
+                  <p>
+                    {newPosts} new posts, load more!
+                  </p>
+                  <AiOutlineSync
+                    style={{ color: "#FFFFFF", fontSize: "16px" }}
+                  />
+                </NewPostsBox>
+                :
+                <></>
+              }
               {loading ? (
                 <Loaderspinner />
               ) : postList.length === 0 ? (
@@ -125,5 +171,29 @@ const PostContainer = styled.div`
   }
   @media (max-width: 620px) {
     width: 100% !important;
+  }
+`;
+
+const NewPostsBox = styled.div`
+  width: 100%;
+  height: 61px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #1877F2;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(
+    0, 0, 0, 0.25
+  );
+  margin-top: 30px;
+  margin-bottom: -10px;
+  > p {
+    font-family: 'Leto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding-right: 8px;
   }
 `;

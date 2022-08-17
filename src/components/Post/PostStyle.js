@@ -18,13 +18,13 @@ export const TagContainer = styled.div`
 `;
 
 export const PostBox = styled.div`
-  width: 608px;
+  width: 100%;
   min-height: 276px;
   margin: 2rem 0 0 0;
   padding: 20px;
   box-sizing: border-box;
   border: none;
-  border-radius: 16px 16px 0 0;
+  border-radius: 16px;
   background-color: #171717;
   display: flex;
   flex-direction: row;
