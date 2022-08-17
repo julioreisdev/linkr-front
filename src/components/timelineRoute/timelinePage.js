@@ -64,6 +64,7 @@ export default function TimelinePage() {
         setPostList(re.data);
         setPostLoader(false);
         setLoading(false);
+        setNewPosts(0);
       });
     } else {
       alert(
