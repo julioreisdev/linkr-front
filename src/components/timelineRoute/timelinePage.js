@@ -69,6 +69,7 @@ export default function TimelinePage() {
       alert(
         "An error occured while trying to fetch the posts, please refresh the page"
       );
+      setPostLoader(false);
       localStorage.removeItem("data");
       navigate("/");
     }
@@ -115,7 +116,7 @@ export default function TimelinePage() {
             <PostContainer>
               <Post />
               {newPosts > 0 ?
-                <NewPostsBox>
+                <NewPostsBox onClick={() => setPostLoader(true)}>
                   <p>
                     {newPosts} new posts, load more!
                   </p>
