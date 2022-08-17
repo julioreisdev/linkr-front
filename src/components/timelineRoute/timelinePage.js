@@ -84,8 +84,8 @@ export default function TimelinePage() {
       const posts = re.data;
       let count = 0;
       if(posts[0].postId !== postList[0].postId) {
-        posts.forEach((post, index) =>{
-          if(post.postId !== postList[index].postId){
+        posts.forEach((post) => {
+          if(!postList.some(old => post.postId === old.postId)){
             count++;
           }
         });
