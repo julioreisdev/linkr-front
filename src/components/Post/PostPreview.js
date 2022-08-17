@@ -85,11 +85,9 @@ export default function PostPreview({
       const body = { userId: userdata.userId };
       const promise = axios.post(api, body, config);
 
-      console.log(body);
       promise
         .then((re) => {
           setLikePost(true);
-          console.log("liked " + postId);
         })
         .catch((error) => {
           alert("Não foi possível curtir esse post.\nVerifique a conexão!");
