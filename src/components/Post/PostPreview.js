@@ -1,22 +1,20 @@
-import { useState, useContext, useEffect } from "react";
-import { ReactTagify } from "react-tagify";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { FaPen, FaTrash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { ReactTagify } from "react-tagify";
+import UserContext from "../../contexts/UserContext";
+import Input from "./Input";
 import {
+  CommentIcon,
+  Comments,
+  LikeContainer,
+  LinkContainer,
   PostBox,
   PostOptions,
-  TagContainer,
-  LikeContainer,
-  SendComment,
-  LinkContainer,
-  Comments,
-  CommentIcon,
+  SendComment
 } from "./PostStyle";
-import Input from "./Input";
-import { FaPen, FaTrash } from "react-icons/fa";
-import UserContext from "../../contexts/UserContext";
 
-import { ChooseConfig } from "../../assets/functions/chooseToken";
 export default function PostPreview({
   userId,
   postId,
@@ -34,6 +32,7 @@ export default function PostPreview({
   const [totalLikes, setTotalLikes] = useState([]);
   const [tagsPost, setTagsPosts] = useState([]);
   const [viewComment, setViewComment] = useState(false);
+  const [comment, setComment] = useState("");
 
   const token = localStorage.getItem("@tokenJWT").replaceAll('"', "");
   const config = {
@@ -116,6 +115,30 @@ export default function PostPreview({
     setModalIsOpen(true);
   }
 
+  function submitComment() {
+    if (comment) {
+      const api = `${process.env.REACT_APP_URL_API}/comment`;
+      const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      };
+      const body = {
+        content: comment,
+        postId: postId,
+      };
+      const promise = axios.post(api, body, config);
+      promise
+        .then((res) => {
+          setComment("");
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    }
+  }
+
   return (
     <>
       <PostBox>
@@ -183,8 +206,10 @@ export default function PostPreview({
                 id="comment"
                 required
                 placeholder="write a comment..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               />
-              <button onClick={() => console.log("click")}>
+              <button onClick={() => submitComment()}>
                 <ion-icon name="send"></ion-icon>
               </button>
             </form>
