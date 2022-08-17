@@ -33,6 +33,7 @@ export default function PostPreview({
   const [tagsPost, setTagsPosts] = useState([]);
   const [viewComment, setViewComment] = useState(false);
   const [comment, setComment] = useState("");
+  const [countComment, setCountComment] = useState(0);
 
   const token = localStorage.getItem("@tokenJWT").replaceAll('"', "");
   const config = {
@@ -137,6 +138,27 @@ export default function PostPreview({
     }
   }
 
+  useEffect(() => {
+    const api = `${process.env.REACT_APP_URL_API}/commentId`;
+    const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
+    };
+    const body = {
+      postId: postId,
+    };
+    const promise = axios.post(api, body, config);
+    promise
+      .then((res) => {
+        setCountComment(res.data.count);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  });
+
   return (
     <>
       <PostBox>
@@ -152,6 +174,7 @@ export default function PostPreview({
           <p>{totalLikes.length ? `${totalLikes.length} likes` : ""}</p>
           <CommentIcon onClick={() => setViewComment(!viewComment)}>
             <ion-icon name="text"></ion-icon>
+            <p>{countComment} comments</p>
           </CommentIcon>
         </LikeContainer>
         {userId === userdata.userId ? (
