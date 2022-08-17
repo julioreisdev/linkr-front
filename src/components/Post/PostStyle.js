@@ -207,6 +207,14 @@ export const PostOptions = styled.div`
 export const CommentIcon = styled.div`
   margin-top: 0.8rem;
   color: #ffffff !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    text-align: center;
+    font-size: 0.7rem;
+  }
 `;
 
 export const Comments = styled.div`
