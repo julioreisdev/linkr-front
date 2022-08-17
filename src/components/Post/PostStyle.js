@@ -24,7 +24,7 @@ export const PostBox = styled.div`
   padding: 20px;
   box-sizing: border-box;
   border: none;
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
   background-color: #171717;
   display: flex;
   flex-direction: row;
@@ -213,7 +213,7 @@ export const Comments = styled.div`
   /* position: absolute; */
   left: 0;
   bottom: -4rem;
-  width: 608px;
+  width: 100%;
   padding: 1rem;
   background-color: #1e1e1e;
   margin-bottom: 1rem;
