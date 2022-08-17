@@ -33,6 +33,7 @@ function closeDropDown(Status, Setstatus, e) {
 export default function TimelinePage() {
   const [postList, setPostList] = useState([]);
   const [ newPosts, setNewPosts ] = useState(0);
+  const [interval, setIinterval] = useState(15000);
   const [loading, setLoading] = useState(false);
   const { Status, Setstatus } = useContext(elementStatusContext);
   const {
@@ -76,7 +77,6 @@ export default function TimelinePage() {
     }
   }, [userdata, postLoader]);
   
-  let interval = 15000;
   useInterval(() => {
     const promise = getPosts();
     
@@ -95,7 +95,7 @@ export default function TimelinePage() {
       alert(
         "An error occured while trying to fetch the posts, please refresh the page"
       );
-      interval = null;  
+      setIinterval(null);  
     });
   }, interval);
 
