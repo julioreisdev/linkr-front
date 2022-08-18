@@ -21,6 +21,8 @@ import InputUsers from "../navBarr/InputUsers.js";
 import { AiOutlineSync } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 
+let counter = 0;
+let hasMore = true;
 
 function closeDropDown(Status, Setstatus, e) {
   e.preventDefault();
@@ -35,6 +37,7 @@ export default function TimelinePage() {
   const [ newPosts, setNewPosts ] = useState(0);
   const [interval, setIinterval] = useState(15000);
   const [loading, setLoading] = useState(false);
+  const [loadingNewPosts, setLoadingNewPosts] = useState(false);
   const { Status, Setstatus } = useContext(elementStatusContext);
   const {
     userdata, postLoader, setPostLoader
@@ -55,8 +58,38 @@ export default function TimelinePage() {
     return promise;
   }
 
+  function handleScroll(e) {
+    const scrollTop = e.target.documentElement.scrollTop;
+    const scrollHeight = e.target.documentElement.scrollHeight;
+    const innerHeight = window.innerHeight;
+
+    if(scrollTop + innerHeight === scrollHeight) {
+      counter += 5;
+      if(counter%10 === 0 && hasMore) {
+        setLoadingNewPosts(true);
+        
+        const config = {
+          headers: {
+            Authorization: `Bearer ${userdata.token}`,
+          },
+        };
+        const promise = axios.get(
+          `${process.env.REACT_APP_URL_API}/posts/${counter}`,
+          config
+        );
+
+        promise.then((re) => {
+          setLoadingNewPosts(false);
+          if(re.data.length <= 0) return hasMore = false;
+          setPostList( oldList => [...oldList, ...re.data]);
+        })
+      }
+    }
+  }
+
   useEffect(() => {
     setLoading(true);
+    window.addEventListener("scroll", (e) => handleScroll(e));
 
     if(userdata.token) {
       const promise = getPosts();
@@ -149,6 +182,7 @@ export default function TimelinePage() {
                   />
                 ))
               )}
+              {loadingNewPosts ? <Loaderspinner /> : <></>}
             </PostContainer>
             <Hastags />
           </ContentMain>
