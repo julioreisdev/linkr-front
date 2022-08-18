@@ -17,63 +17,96 @@ import {
 } from "../timelineRoute/timelineStyle.js";
 import UserContext from "../../contexts/UserContext.js";
 
+let counter = 0;
+let hasMore = true;
+
 export default function HashtagPage(){
-    const {Status,Setstatus} = useContext(elementStatusContext);
-    const {userdata, postLoader,setPostLoader}=useContext(UserContext)
-    const [postList, setPostList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const {hashtag}=useParams();
-    const isLoad = loading? <Loaderspinner/>:
-                    postList.map((post,index)=>(
-                        <PostPreview
-                          key={index}
-                          postId={post.postId}
-                          userId={post.userId}
-                          userName={post.userName}
-                          userImage={post.userImage}
-                          postContent={post.postContent}
-                          tags={post.tags}
-                          url={post.url}
-                          urlTitle={post.urlTitle}
-                          urlDescription={post.urlDescription}
-                          urlImage={post.urlImage}
-                        />
-                  ));
-useEffect(() => {
-            console.log("entrei")
-            setLoading(true);
-            if(userdata.token) {
-              const config = {
-                headers: {
-                  Authorization: `Bearer ${userdata.token}`,
-                },
-              };
-              console.log(config)
+  const {Status,Setstatus} = useContext(elementStatusContext);
+  const {userdata, postLoader,setPostLoader}=useContext(UserContext)
+  const [postList, setPostList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingNewPosts, setLoadingNewPosts] = useState(false);
+  const {hashtag}=useParams();
+  const isLoad = loading? <Loaderspinner/>:
+    postList.map((post,index)=>(
+      <PostPreview
+        key={index}
+        postId={post.postId}
+        userId={post.userId}
+        userName={post.userName}
+        userImage={post.userImage}
+        postContent={post.postContent}
+        tags={post.tags}
+        url={post.url}
+        urlTitle={post.urlTitle}
+        urlDescription={post.urlDescription}
+        urlImage={post.urlImage}
+      />
+    ));
+
+    function handleScroll(e) {
+      const scrollTop = e.target.documentElement.scrollTop;
+      const scrollHeight = e.target.documentElement.scrollHeight;
+      const innerHeight = window.innerHeight;
+  
+      if(scrollTop + innerHeight + 1 >= scrollHeight) {
+        counter += 5;
+        if(counter%10 === 0 && hasMore) {
+          setLoadingNewPosts(true);
+          
+          const config = {
+            headers: {
+              Authorization: `Bearer ${userdata.token}`,
+            },
+          };
+          const promise = axios.get(
+            `${process.env.REACT_APP_URL_API}/hashtag/${hashtag}/${counter}`,
+            config
+          );
+  
+          promise.then((re) => {
+            setLoadingNewPosts(false);
+            if(re.data.length <= 0) return hasMore = false;
+            setPostList( oldList => [...oldList, ...re.data]);
+          })
+        }
+      }
+    }
+
+    useEffect(() => {
+      setLoading(true);
+
+      window.addEventListener("scroll", (e) => handleScroll(e));
+
+      if(userdata.token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${userdata.token}`,
+          },
+        };
               
-              const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}`,config)
-              promise.then((re)=>{
-                console.log([...re.data]);
-                setPostList([...re.data]);
-                setLoading(false);
-              }).catch(()=>
-                alert("não foi possível carregar os posts dessa hashtag"));
-            } else {
-              const token = localStorage.getItem("@tokenJWT").replaceAll('"', "")
-              const config = {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              };
+        const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}/0`,config)
+        promise.then((re)=>{
+          setPostList([...re.data]);
+          setLoading(false);
+        }).catch(()=>
+          alert("não foi possível carregar os posts dessa hashtag"));
+        } else {
+          const token = localStorage.getItem("@tokenJWT").replaceAll('"', "")
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
         
-              const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}`,config)
-              promise.then((re)=>{
-                console.log([...re.data]);
-                setPostList([...re.data]);
-                setLoading(false);
-              }).catch(()=>
+        const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}/0`,config)
+          promise.then((re)=>{
+            setPostList([...re.data]);
+            setLoading(false);
+          }).catch(()=>
                 alert("não foi possível carregar os posts dessa hashtag"));
-              }
-          }, [hashtag,postLoader]);
+        }
+    }, [hashtag,postLoader]);
                   
 
 
