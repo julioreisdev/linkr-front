@@ -6,7 +6,12 @@ import { ReactTagify } from "react-tagify";
 import UserContext from "../../contexts/UserContext";
 import Input from "./Input";
 import {
+  AllComments,
+  CommentContainer,
+  CommentContent,
+  CommentCreator,
   CommentIcon,
+  CommentInfo,
   Comments,
   LikeContainer,
   LinkContainer,
@@ -34,6 +39,8 @@ export default function PostPreview({
   const [viewComment, setViewComment] = useState(false);
   const [comment, setComment] = useState("");
   const [countComment, setCountComment] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [controller, setController] = useState(false);
 
   const token = localStorage.getItem("@tokenJWT").replaceAll('"', "");
   const config = {
@@ -131,6 +138,7 @@ export default function PostPreview({
       promise
         .then((res) => {
           setComment("");
+          setController(!controller);
         })
         .catch((err) => {
           console.log(err.response);
@@ -157,7 +165,43 @@ export default function PostPreview({
       .catch((err) => {
         console.log(err.response);
       });
-  });
+  }, [controller]);
+
+  useEffect(() => {
+    const api = `${process.env.REACT_APP_URL_API}/commentsId`;
+    const token = JSON.parse(localStorage.getItem("@tokenJWT"));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
+    };
+    const body = {
+      postId: postId,
+    };
+    const promise = axios.post(api, body, config);
+    promise
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, [controller]);
+
+  function Comment(props) {
+    return (
+      <CommentContainer>
+        <img src={props.image} alt="Picture User" />
+        <CommentInfo>
+          <CommentCreator>
+            <p>{props.userName}</p>
+            <p>{userId === props.userId ? "• post’s author" : null}</p>
+          </CommentCreator>
+          <CommentContent>{props.content}</CommentContent>
+        </CommentInfo>
+      </CommentContainer>
+    );
+  }
 
   return (
     <>
@@ -219,6 +263,17 @@ export default function PostPreview({
       </PostBox>
       {viewComment ? (
         <Comments>
+          <AllComments>
+            {comments.map((c, index) => (
+              <Comment
+                key={index}
+                image={c.image}
+                userName={c.userName}
+                content={c.content}
+                userId={c.userId}
+              />
+            ))}
+          </AllComments>
           <SendComment>
             <img src={userImg} alt="User Img" />
             <form>
