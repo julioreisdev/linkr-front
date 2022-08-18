@@ -43,7 +43,6 @@ export default function UserPage() {
   useEffect(()=>{
     const promise = axios.get(`${process.env.REACT_APP_URL_API}/user/Posts/${id}`,config)
     promise.then((re)=>{
-      console.log([...re.data]);
       setPostList([...re.data]);
       setLoading(false);
     }).catch(()=>
@@ -55,7 +54,6 @@ export default function UserPage() {
       const promise = axios.get(`${process.env.REACT_APP_URL_API}/user/${id}`,config)
     promise.then((re)=>{
       const userData = re.data
-      console.log(userData)
       const nome = userData.userName[0].toUpperCase() + userData.userName.substring(1);
       setUserName(nome  )
     }).catch(()=>
