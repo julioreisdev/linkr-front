@@ -238,7 +238,6 @@ export const SendComment = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-top: 0.8rem;
-  border-top: 1px solid #333;
 
   form {
     position: relative;
@@ -276,4 +275,49 @@ export const SendComment = styled.div`
       height: 30px;
     }
   }
+`;
+
+export const AllComments = styled.div``;
+
+export const CommentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid #333;
+
+  img {
+    margin-right: 0.8rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  @media (min-width: 0) and (max-width: 620px) {
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+`;
+
+export const CommentInfo = styled.div``;
+
+export const CommentCreator = styled.p`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  p {
+    margin-right: 0.4rem;
+  }
+
+  p:last-child {
+    color: #565656;
+    font-weight: normal;
+  }
+`;
+
+export const CommentContent = styled.p`
+  color: #ACACAC;
 `;
