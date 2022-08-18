@@ -63,7 +63,7 @@ export default function TimelinePage() {
     const scrollHeight = e.target.documentElement.scrollHeight;
     const innerHeight = window.innerHeight;
 
-    if(scrollTop + innerHeight === scrollHeight) {
+    if(scrollTop + innerHeight + 1 >= scrollHeight) {
       counter += 5;
       if(counter%10 === 0 && hasMore) {
         setLoadingNewPosts(true);
