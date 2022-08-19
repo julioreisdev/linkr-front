@@ -44,7 +44,7 @@ export default function PostModal() {
             `${process.env.REACT_APP_URL_API}/posts/${postData}`,
             config
         );
-        console.log(`${process.env.REACT_APP_URL_API}/posts/${postData}`);
+        
         promise.then(() => {
             setLoading(false);
             setModalIsOpen(false);

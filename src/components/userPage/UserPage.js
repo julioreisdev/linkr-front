@@ -10,6 +10,7 @@ import TimelineTitle from "../timelineRoute/timelineTitle.js";
 import elementStatusContext from "../../context/ElementsStatus.js";
 import GlobalStyle from "../../assets/css/cssReset/globalStyled.js";
 import closeDropDown from "../../assets/functions/closeDropdown.js";
+import PostModal from "../Post/PostModal.js";
 import { ContentMain, TotalContainer, PostContainer} from "../timelineRoute/timelineStyle.js";
 import styled from "styled-components";
 
@@ -25,7 +26,7 @@ export default function UserPage() {
     const [loadingNewPosts, setLoadingNewPosts] = useState(false);
     const [ follow, setFollow ] = useState("user");
     const {Status,Setstatus} = useContext(elementStatusContext);
-    const {userdata, followers, setFollowers} = useContext(UserContext);
+    const {userdata, followers, postLoader, setPostLoader} = useContext(UserContext);
     
     const config = {
         headers: {
@@ -66,8 +67,8 @@ export default function UserPage() {
     
             promise.then((re) => {
               setLoadingNewPosts(false);
-              if(re.data.length <= 0) return hasMore = false;
               setPostList( oldList => [...oldList, ...re.data]);
+              if(re.data.length <= 0) return hasMore = false;
             })
           }
         }
@@ -88,11 +89,12 @@ export default function UserPage() {
     promise.then((re)=>{
       setPostList([...re.data]);
       setLoading(false);
+      setPostLoader(false);
       counter = 0;
       hasMore = true;
     }).catch(()=>
       alert("não foi possível carregar os posts dessa hashtag"));
-  },[id, followers]);
+  },[id, postLoader,followers]);
 
   useEffect(()=>{ 
     const promise = axios.get(`${process.env.REACT_APP_URL_API}/user/${id}`,config)
@@ -182,6 +184,7 @@ export default function UserPage() {
               <Hastags/>
               </ContentMain>
             </div>
+            <PostModal />
         </TotalContainer>
       </>
     );
