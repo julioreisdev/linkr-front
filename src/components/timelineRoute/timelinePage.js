@@ -40,7 +40,7 @@ export default function TimelinePage() {
   const [loadingNewPosts, setLoadingNewPosts] = useState(false);
   const { Status, Setstatus } = useContext(elementStatusContext);
   const {
-    userdata, postLoader, setPostLoader, setFollowers
+    userdata, postLoader, setPostLoader, followers, setFollowers
   } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -156,6 +156,12 @@ export default function TimelinePage() {
     });
   }, interval);
 
+  let messageh1 = <h1>No posts found from your friends</h1>;
+  
+  if(!followers.length) {
+    messageh1 = <h1>You don't follow anyone yet. Search for new friends!</h1>;
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -188,7 +194,7 @@ export default function TimelinePage() {
               {loading ? (
                 <Loaderspinner />
               ) : postList.length === 0 ? (
-                <h1> There are no posts yet </h1>
+                messageh1
               ) : (
                 postList.map((post, index) =>(
                   <PostPreview
