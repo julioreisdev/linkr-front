@@ -74,9 +74,7 @@ export default function UserPage() {
       }
 
   useEffect(()=>{
-    if(followers[0].followerId){
-      if( Number(id) !== followers[0].followerId ) setFollow("follow");
-    } else if(id !== userdata.id) {
+    if(Number(id) !== userdata.userId){
       setFollow("follow");
     }
     if( followers.some(follow =>
