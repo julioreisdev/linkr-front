@@ -40,7 +40,7 @@ export default function TimelinePage() {
   const [loadingNewPosts, setLoadingNewPosts] = useState(false);
   const { Status, Setstatus } = useContext(elementStatusContext);
   const {
-    userdata, postLoader, setPostLoader
+    userdata, postLoader, setPostLoader, setFollowers
   } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -52,6 +52,20 @@ export default function TimelinePage() {
     };
     const promise = axios.get(
       `${process.env.REACT_APP_URL_API}/posts`,
+      config
+    );
+
+    return promise;
+  }
+
+  function getFollowers() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userdata.token}`,
+      },
+    };
+    const promise = axios.get(
+      `${process.env.REACT_APP_URL_API}/followers`,
       config
     );
 
@@ -93,13 +107,21 @@ export default function TimelinePage() {
 
     if(userdata.token) {
       const promise = getPosts();
+      const followPromise = getFollowers();
 
       promise.then((re) => {
         setPostList(re.data);
         setPostLoader(false);
         setLoading(false);
         setNewPosts(0);
+        counter = 0;
+        hasMore = true;
       });
+
+      followPromise.then((re) => {
+        setFollowers(re.data);
+      });
+    
     } else {
       alert(
         "An error occured while trying to fetch the posts, please refresh the page"

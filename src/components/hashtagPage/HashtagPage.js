@@ -86,9 +86,12 @@ export default function HashtagPage(){
         };
               
         const promise = axios.get(`${process.env.REACT_APP_URL_API}/hashtag/${hashtag}/0`,config)
+        
         promise.then((re)=>{
           setPostList([...re.data]);
           setLoading(false);
+          counter = 0;
+          hasMore = true;
         }).catch(()=>
           alert("não foi possível carregar os posts dessa hashtag"));
         } else {
