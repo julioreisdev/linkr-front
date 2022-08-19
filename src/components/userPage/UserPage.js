@@ -66,8 +66,8 @@ export default function UserPage() {
     
             promise.then((re) => {
               setLoadingNewPosts(false);
-              if(re.data.length <= 0) return hasMore = false;
               setPostList( oldList => [...oldList, ...re.data]);
+              if(re.data.length <= 0) return hasMore = false;
             })
           }
         }

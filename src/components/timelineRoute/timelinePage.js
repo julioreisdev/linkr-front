@@ -79,6 +79,7 @@ export default function TimelinePage() {
 
     if(scrollTop + innerHeight + 1 >= scrollHeight) {
       counter += 5;
+
       if(counter%10 === 0 && hasMore) {
         setLoadingNewPosts(true);
         
@@ -94,8 +95,9 @@ export default function TimelinePage() {
 
         promise.then((re) => {
           setLoadingNewPosts(false);
-          if(re.data.length <= 0) return hasMore = false;
+          console.log(re.data);
           setPostList( oldList => [...oldList, ...re.data]);
+          if(re.data.length <= 0) return hasMore = false;
         })
       }
     }
