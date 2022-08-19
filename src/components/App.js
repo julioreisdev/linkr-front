@@ -20,6 +20,7 @@ export default function App() {
   const [searchPeople, setSearchPeople] = useState("");
   const [ postData, setPostData ] = useState(null);
   const [ modalIsOpen, setModalIsOpen ] = useState(false);
+  const [ followers, setFollowers ] = useState([]);
 
   return (
     <UserContext.Provider
@@ -37,7 +38,9 @@ export default function App() {
         postData,
         setPostData,
         modalIsOpen,
-        setModalIsOpen
+        setModalIsOpen,
+        followers,
+        setFollowers
       }}
     >
       <elementStatusContext.Provider value={{ Status, Setstatus }}>

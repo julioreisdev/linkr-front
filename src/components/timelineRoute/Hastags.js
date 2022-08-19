@@ -2,7 +2,9 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { LoaderspinnerTail } from "../Loaderspinner";
-import {HastagsLink,TagsBoxSection,BorderHorizon,TitleArticle,AsideStyled} from "../../assets/css/style/hashtagAsideStyle.js";
+import {
+    HastagsLink,TagsBoxSection,BorderHorizon,TitleArticle,AsideStyled,
+} from "../../assets/css/style/hashtagAsideStyle.js";
 import UserContext from "../../contexts/UserContext.js";
 function TagsBox ({hastagsData,loading}){
     const isLoad= loading ? (<LoaderspinnerTail/>):

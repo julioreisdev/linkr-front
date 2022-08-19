@@ -8,11 +8,12 @@ return(
 }
 
 const TimeLineTitleSection =styled.section`
-     width:100%;
+    width:100%;
     max-width:936px;
     display:flex;
     justify-content:flex-start;
     align-items:center;
+    position: relative;
     h2 {
     font-size: 2.5rem;
     font-weight: bold;
